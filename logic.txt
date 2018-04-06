@@ -1,0 +1,46 @@
+Here is the logic of 69105 more keys. Well, both rooms. It covers both how I figured things out and how you can.
+
+Each puzzle relies on how two numbers factor.
+
+I used a PERL program to determine a number's factors. 69105 had 271 as a factor, so first, I wanted to go with something odd, with no factor greater than 30.
+
+69069 was such a number, and it went in room 69105a, which wasn't even 69105a at first. I didn't know there'd be a 69105b.
+
+69069 = 23*13*11*7*3. (Math team/trivia types will recognize 1001=13*11*7 immediately.)
+
+For factor X, we then have the following:
+
+--descriptions that aren't unique are weighted by 2
+--descriptions that are unique are weighted by 1
+
+--the remaining 36 keys are in a "worst" combination. In other words, one of the 11*6*5*3*1-1=989 wrong combinations gets them. So you get a fun message if you find that. It's probably best done by guessing one at a time.
+
+The game thus becomes a puzzle to detect by trial and error which are right. You only know how many keys you've got right, though.
+
+69105b allows for a bit more targeted guessing. It's based on how 69105 factors.
+
+69105 = 271 * 17 * 5 * 3
+
+Now, the number of keys in a wrong guess is weighted differently. You may see this as you play through.
+
+271=1+9+13+17+21+25+29+33+37+41+45
+17=1+3+5+8
+5=1+2+2
+3=1+2
+
+You'll notice there aren't a lot of even numbers. So if the number is divisible by 8, 17 (writing) is wrong, and you can divide what you have by 8.
+
+If that number is divisible by 4, both 5 (textures) and 3 (grooves) are wrong.
+
+If 2, one is wrong. So you can, in fact, twiddle grooves and textures on move 2. If the next number is divisible by 2, you know you had 1 right and 1 wrong both ways, so you need 2 more guesses.
+
+If it's divisible by 4, yay!
+
+If it's divisible by 0, then you know 3 must've been right and your guesses for 5 were wrong.
+
+Now you need to pay attention to 17*271. The only possible mess is if you get a product of 45. Then you may have 5/9 or 1/45. But if you make a different guess with both, you should be able to detect things. If it's still 35, change only one of the guesses next time.
+
+This leaves a bit of an unfortunate mess of guesswork for 271. Sorry. Blame the number, not me!
+
+(Note: a possibility here was 271=1+57+64+71+78. Then we would use similar reasoning to see that if a number was divisible by 64, then 271 was wrong. Or if by 13, then 271 was wrong--it was 78.)
+
