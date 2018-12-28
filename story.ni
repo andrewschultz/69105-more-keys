@@ -2,9 +2,26 @@
 
 volume initialization and variables
 
+include Trivial Niceties Z-Only by Andrew Schultz.
+
 debug-state is a truth state that varies.
 
 a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called goodnum. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom.
+
+to decide which number is totwt of (k - a keystruc):
+	let temp be 0;
+	if k is aroom, decide on (2 * (number of rows in klist of k)) - 1;
+	repeat through klist of k:
+		increase temp by weight entry;
+	decide on temp;
+
+book room 50196
+
+r50196 is a room. printed name is "Room 50196.". "You are in room 50169. Scratched below you see 69105A and an arrow pointing northwest and 69105B and an arrow pointing northeast."
+
+check going northeast in r50196: move the player to 69105a instead;
+
+check going northwest in r50196: move the player to 69105b instead;
 
 book room a
 
@@ -116,24 +133,32 @@ patterns is a keystruc. klist of patterns is table of kpatterns. patterns is bro
 volume main part
 
 to mult-keys (KS - a keystruc):
-	let j be the number of rows in klist of KS;
+	let myk be klist of ks;
+	let tt be totwt of ks;
+	let j be the number of rows in myk;
 	say "Looking at [KS].";
-	now j is (2 * j) - 1;
+	now j is (2 * j) - 3;
 	let cur-row be 0;
-	repeat through klist of KS:
+	let got-this-time be false;
+	repeat through myk:
 		increment cur-row;
 		if the player's command matches the regular expression "\b[descrip entry]\b":
+			now got-this-time is true;
 			if cur-row is goodnum of KS:
-				if debug-state is true, say "Right.";
+				if debug-state is true, say "(DEBUG) Right.";
 				now all-bad-so-far is false;
 				the rule succeeds;
 			else:
-				if debug-state is true, say "Wrong.";
+				if debug-state is true, say "(DEBUG) Wrong.";
 				if cur-row is not badnum of KS:
 					now all-bad-so-far is false;
-				one-thou 2;
+				if player is in 69105b:
+					one-thou 2;
+				else:
+					one-thou weight entry;
 				the rule succeeds;
-	one-thou j;
+	if got-this-time is false:
+		one-thou tt;
 
 to say keynum:
 	say "[if thousands > 0][thousands],[end if]";
@@ -142,6 +167,7 @@ to say keynum:
 	say "[ones]";
 
 to one-thou (x - a number):
+	if debug-state is true, say "(DEBUG) Multiplying by [x].";
 	now ones is ones * x;
 	now thousands is thousands * x;
 	increase thousands by (ones / 1000);
@@ -154,31 +180,45 @@ definition: a keystruc (called myks) is relevant:
 	if player is in 69105b and myks is aroom, decide yes;
 	decide no;
 
+cur-moves is a number that varies.
+
 after reading a command:
 	now ones is 1;
 	now thousands is 0;
 	now found-yet is false;
 	now all-bad-so-far is true;
-	repeat with KS running through relevant keystrucs:
-		mult-keys KS;
-	if all-bad-so-far is true:
-		increase ones by 36;
-		if ones > 1000:
-			increment thousands;
-			now ones is ones - 1000;
-	say "[keynum] left based on your guess.";
-[			if found-yet is true:
-				say "You have two contradictory descriptions.";
+	if character number 1 in the player's command is "x":
+		increment cur-moves;
+		repeat with KS running through relevant keystrucs:
+			mult-keys KS;
+		if all-bad-so-far is true:
+			increase ones by 36;
+			if ones > 1000:
+				increment thousands;
+				now ones is ones - 1000;
+		if thousands < 69:
+			if thousands > 0 or ones > 1:
+				if found-yet is true:
+					say "You have two contradictory descriptions.";
+					reject the player's command;
+				now found-yet is true;
+				say "You see [keynum] such keys that fit the description.";
 				reject the player's command;
-			now found-yet is true;]
+			say "You got it!";
+			increment wins of location of player;
+			increase moves of location of player by cur-moves;
+			if min-best of location of player is 0 or min-best of location of player > cur-moves:
+				if min-best of location of player > 0, say "You have a new best: [cur-moves] guesses, beating out [min-best of location of player].";
+			move player to r50196;
+			random-reset;
 
 when play begins:
+	random-reset;
+
+to random-reset:
 	reshuffle-a;
 	reshuffle-b;
-
-to reshuffle-b:
-	repeat with X running through broom keystrucs:
-		table-num-shuf klist of X;
+	now cur-moves is 0;
 
 to table-num-shuf (thistab - a table name):
 	let temp be number of rows in thistab;
@@ -252,3 +292,25 @@ carry out cheating:
 		choose row C in klist of Q;
 		say "[descrip entry].";
 	the rule succeeds;
+
+book records
+
+a room has a number called wins.
+a room has a number called moves.
+a room has a number called min-best.
+
+book requesting the score
+
+check requesting the score:
+	if player is in r50196:
+		say "You need to move northwest or northeast to try one of the rooms.";
+	else:
+		say "You have taken [cur-moves] move[plur of cur-moves] moves for this try.";
+	show-wins 69105a;
+	show-wins 69105b;
+
+to show-wins (rm - a room):
+	if wins of rm is 0:
+		say "You don't have any wins in [rm] yet.";
+	else:
+		say "You have [wins of rm] win[plur of wins of rm] in the northwest room, with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort."
