@@ -2,6 +2,12 @@
 
 volume initialization and variables
 
+the story headline is "A Riff on David Welbourn's original game".
+
+the story description is "For New Year Comp 2019".
+
+the release number is 1.
+
 include Trivial Niceties Z-Only by Andrew Schultz.
 
 debug-state is a truth state that varies.
@@ -17,13 +23,29 @@ to decide which number is totwt of (k - a keystruc):
 
 book room 50196
 
-r50196 is a room. printed name is "Room 50196.". "You are in room 50169. Scratched below you see 69105A and an arrow pointing northwest and 69105B and an arrow pointing northeast."
+Room 50196 is a room. "You are in room 50169. Scratched below you see 69105A and an arrow pointing northeast and 69105B and an arrow pointing northwest."
 
-check going northeast in r50196: move the player to 69105a instead;
+check going nowhere in Room 50196: say "There are really only two ways to go: northeast and northwest." instead;
 
-check going northwest in r50196: move the player to 69105b instead;
+check going northeast in Room 50196:
+	say "You hear a whirring behind you as the passage back closes.";
+	key-move 69105a instead;
 
-book room a
+to key-move (r - a room):
+	move the key to r;
+	move the player to r;
+
+check going northwest in Room 50196:
+	say "You hear a whirring behind you as the passage back closes.";
+	key-move 69105b instead;
+
+book room 69105a
+
+Room 69105a is a room.
+
+the key is a thing in Room 69105a. understand "keys" as key.
+
+chapter randomized tables for room 69105a
 
 table of kwidths
 descrip	weight
@@ -84,11 +106,13 @@ handles is a keystruc. klist of handles is table of khandles.
 found-yet is a truth state that varies.
 all-bad-so-far is a truth state that varies. [this determines if there are 32 extra keys of the "totally wrong" type]
 
-book room b
+book room 69105b
 
-room 69105b is a room.
+Room 69105b is a room.
 
 [room b works as follows: there are actually 69105 keys. But they are broken down and weighted so that you have 3*5*17*271 total keys. You can see by the sum of the weights what goes where. There's some ambiguity with the 1/2 and 1/5/9/45, but other than that, you can guess what is going on pretty quickly. I think.]
+
+chapter random tables for room 69105b
 
 table of kgrooves
 descrip	weight
@@ -209,7 +233,7 @@ after reading a command:
 			increase moves of location of player by cur-moves;
 			if min-best of location of player is 0 or min-best of location of player > cur-moves:
 				if min-best of location of player > 0, say "You have a new best: [cur-moves] guesses, beating out [min-best of location of player].";
-			move player to r50196;
+			move player to Room 50196;
 			random-reset;
 
 when play begins:
@@ -251,10 +275,6 @@ to reshuffle-b:
 		now badnum of X is goodnum of X + a random number between 1 and Y - 1;
 		if badnum of X > Y:
 			decrease badnum of X by Y;
-
-room 69105a is a room.
-
-the key is a thing in room 69105a.
 
 volume debug - not for release
 
@@ -302,7 +322,7 @@ a room has a number called min-best.
 book requesting the score
 
 check requesting the score:
-	if player is in r50196:
+	if player is in Room 50196:
 		say "You need to move northwest or northeast to try one of the rooms.";
 	else:
 		say "You have taken [cur-moves] move[plur of cur-moves] moves for this try.";
