@@ -39,6 +39,9 @@ check going northwest in Room 50196:
 	say "You hear a whirring behind you as the passage back closes.";
 	key-move 69105b instead;
 
+after looking in room 50196 for the first time:
+	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make a more mathy variant. And for his permisssion to make this sequel. Also, Type ABOUT to see general advice, or VERBS to see what sort of verbs to use.[close bracket][paragraph break]";
+
 book room 69105a
 
 Room 69105a is a room.
@@ -275,6 +278,33 @@ to reshuffle-b:
 		now badnum of X is goodnum of X + a random number between 1 and Y - 1;
 		if badnum of X > Y:
 			decrease badnum of X by Y;
+
+volume odd verbs
+
+chapter xyzzying
+
+xyzzying is an action applying to nothing.
+
+understand the command "xyzzy" as something new.
+
+understand "xyzzy" as xyzzying.
+
+carry out xyzzying:
+	say "You wonder if jiggling the wrong key back and forth could fool the lock. Then you regret not searching for a suitable PICK ANY LOCK videos on Youtube. Nope, you're going to have to use guesswork here.";
+	the rule succeeds.
+
+chapter abouting
+
+abouting is an action applying to nothing.
+
+understand the command "about" as something new.
+
+understand "about" as abouting.
+
+carry out abouting:
+	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him, and this game became one for me in a way, too. Perhaps it would be a good coding exercise for Twine, too. You could click on your next guess, and the number of keys left would appear.";
+	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
+	the rule succeeds;
 
 volume debug - not for release
 
