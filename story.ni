@@ -10,6 +10,9 @@ the release number is 1.
 
 include Trivial Niceties Z-Only by Andrew Schultz.
 
+[below can be commented/uncommented as needed to perform tests.]
+[include 69105 Tests by Andrew Schultz.]
+
 debug-state is a truth state that varies.
 
 a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called goodnum. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom.
@@ -306,42 +309,7 @@ carry out abouting:
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	the rule succeeds;
 
-volume debug - not for release
-
-when play begins:
-	now debug-state is true;
-
-chapter shuffleing
-
-shuffleing is an action out of world.
-
-understand the command "shuffle" as something new.
-
-understand "shuffle" as shuffleing.
-
-carry out shuffleing:
-	reshuffle-a;
-	reshuffle-b;
-	the rule succeeds;
-
-chapter cheating
-
-cheating is an action out of world.
-
-understand the command "cheat" as something new.
-
-understand "cheat" as cheating.
-
-carry out cheating:
-	repeat with Q running through keystrucs:
-		let B be the goodnum of Q;
-		let C be the badnum of Q;
-		say "[klist of Q]: right ([goodnum of Q])=";
-		choose row B in klist of Q;
-		say "[descrip entry] wrong ([badnum of Q])=";
-		choose row C in klist of Q;
-		say "[descrip entry].";
-	the rule succeeds;
+volume tallying results
 
 book records
 
@@ -364,3 +332,9 @@ to show-wins (rm - a room):
 		say "You don't have any wins in [rm] yet.";
 	else:
 		say "You have [wins of rm] win[plur of wins of rm] in the northwest room, with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort."
+
+volume debug - not for release
+
+when play begins:
+	now debug-state is true;
+
