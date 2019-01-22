@@ -113,7 +113,8 @@ descrip	weight
 
 handles is a keystruc. klist of handles is table of khandles.
 
-found-yet is a truth state that varies.
+guessed-any is a truth state that varies.
+contradictory-guess is a truth state that varies.
 all-bad-so-far is a truth state that varies. [this determines if there are 32 extra keys of the "totally wrong" type]
 
 book room 69105b
@@ -170,27 +171,33 @@ to mult-keys (KS - a keystruc):
 	let myk be klist of ks;
 	let tt be totwt of ks;
 	let j be the number of rows in myk;
-	[say "(DEBUG) Looking at [KS].";]
+	say "(DEBUG) Looking at [KS].";
 	now j is (2 * j) - 3;
 	let cur-row be 0;
 	let got-this-time be false;
+	let guesses-in-table be 0;
 	repeat through myk:
 		increment cur-row;
 		if the player's command matches the regular expression "\b[descrip entry]\b":
+			increment guesses-in-table;
+			say "Got [guesses-in-table] match for [descrip entry].";
+			if guesses-in-table is 2:
+				now contradictory-guess is true;
+				the rule succeeds;
 			now got-this-time is true;
 			if cur-row is goodnum of KS:
+				now guessed-any is true;
 				if debug-state is true, say "(DEBUG) [descrip entry] is right.";
 				now all-bad-so-far is false;
-				the rule succeeds;
 			else:
 				if debug-state is true, say "(DEBUG) [descrip entry] is wrong.";
+				now guessed-any is true;
 				if cur-row is not badnum of KS:
 					now all-bad-so-far is false;
 				if player is in 69105a:
 					one-thou 2;
 				else:
 					one-thou weight entry;
-				the rule succeeds;
 	if got-this-time is false:
 		one-thou tt;
 
@@ -217,25 +224,27 @@ definition: a keystruc (called myks) is relevant:
 cur-moves is a number that varies.
 
 after reading a command:
+	if player is in room 50196, continue the action;
 	now ones is 1;
 	now thousands is 0;
-	now found-yet is false;
 	now all-bad-so-far is true;
-	if character number 1 in the player's command is "x":
-		increment cur-moves;
+	if word number 1 in the player's command is "x" or word number 1 in the player's command is "take" or word number 1 in the player's command is "get":
+		now guessed-any is false;
+		now contradictory-guess is false;
 		repeat with KS running through relevant keystrucs:
 			mult-keys KS;
+		if contradictory-guess is true:
+			say "You have two contradictory descriptions.";
+			reject the player's command;
 		if all-bad-so-far is true:
 			increase ones by 36;
 			if ones > 1000:
 				increment thousands;
 				now ones is ones - 1000;
+		if guessed-any is false, continue the action;
+		increment cur-moves;
 		if thousands < 69:
 			if thousands > 0 or ones > 1:
-				if found-yet is true:
-					say "You have two contradictory descriptions.";
-					reject the player's command;
-				now found-yet is true;
 				say "You see [keynum] such keys that fit the description.";
 				reject the player's command;
 			say "You found the right key in [cur-moves] move[plur of cur-moves]! As you turn the key in the lock, you take a secret passage that winds around to...";
@@ -360,7 +369,7 @@ to say score-desc of (rm - a room):
 
 to show-wins (rm - a room):
 	if wins of rm is 0:
-		say "You don't have any wins in [rm] yet.";
+		say "You don't have any wins [if player is in rm]here[else]in [rm][end if] yet.";
 	else:
 		say "You have [wins of rm] win[plur of wins of rm] in [score-desc of rm], with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort.";
 		say "Here is a list of frequencies: ";
