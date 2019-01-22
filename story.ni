@@ -10,12 +10,14 @@ the release number is 1.
 
 include Trivial Niceties Z-Only by Andrew Schultz.
 
+include Basic Screen Effects by Emily Short.
+
 [below can be commented/uncommented as needed to perform tests.]
-[include 69105 Tests by Andrew Schultz.]
+include 69105 Tests by Andrew Schultz.
 
 debug-state is a truth state that varies.
 
-a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called goodnum. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom.
+a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom.
 
 to decide which number is totwt of (k - a keystruc):
 	let temp be 0;
@@ -60,56 +62,56 @@ chapter randomized tables for room 69105a
 table of kwidths
 descrip	weight
 "thick"	1
-"narrow"	1
+"narrow"	2
 
 widths is a keystruc. klist of widths is table of kwidths.
 
 table of klengths
 descrip	weight
 "huge"	1
-"long"	1
-"medium"	1
-"short"	1
+"long"	2
+"medium"	2
+"short"	2
 
 lengths is a keystruc. klist of lengths is table of klengths.
 
 table of kbrands
 descrip	weight
 "eagle"	1
-"falcon"	1
-"swordfish"	1
-"octopus"	1
-"dragon"	1
-"troll"	1
+"falcon"	2
+"swordfish"	2
+"octopus"	2
+"dragon"	2
+"troll"	2
 
 brands is a keystruc. klist of brands is table of kbrands.
 
 table of kfaces
 descrip	weight
 "smiley"	1
-"frowny"	1
-"sneery"	1
-"shouty"	1
-"confused"	1
-"annoyed"	1
-"puckered"	1
+"frowny"	2
+"sneery"	2
+"shouty"	2
+"confused"	2
+"annoyed"	2
+"puckered"	2
 
 faces is a keystruc. klist of faces is table of kfaces.
 
 table of khandles
 descrip	weight
 "hexagonal"	1
-"octagonal"	1
-"rhomboid"	1
-"trapezoid"	1
-"circular"	1
-"pentagonal"	1
-"heptagonal"	1
-"zigzag"	1
-"starred"	1
-"arrowed"	1
-"bubbly"	1
-"clovery"	1
+"octagonal"	2
+"rhomboid"	2
+"trapezoid"	2
+"circular"	2
+"pentagonal"	2
+"heptagonal"	2
+"zigzag"	2
+"starred"	2
+"arrowed"	2
+"bubbly"	2
+"clovery"	2
 
 handles is a keystruc. klist of handles is table of khandles.
 
@@ -185,7 +187,7 @@ to mult-keys (KS - a keystruc):
 				now contradictory-guess is true;
 				the rule succeeds;
 			now got-this-time is true;
-			if cur-row is goodnum of KS:
+			if weight entry is 1:
 				now guessed-any is true;
 				if debug-state is true, say "(DEBUG) [descrip entry] is right.";
 				now all-bad-so-far is false;
@@ -194,10 +196,7 @@ to mult-keys (KS - a keystruc):
 				now guessed-any is true;
 				if cur-row is not badnum of KS:
 					now all-bad-so-far is false;
-				if player is in 69105a:
-					one-thou 2;
-				else:
-					one-thou weight entry;
+			one-thou weight entry;
 	if got-this-time is false:
 		one-thou tt;
 
@@ -218,10 +217,12 @@ ones is a number that varies. thousands is a number that varies. [ohai zmachine 
 
 definition: a keystruc (called myks) is relevant:
 	if player is in 69105a and myks is aroom, decide yes;
-	if player is in 69105b and myks is aroom, decide yes;
+	if player is in 69105b and myks is broom, decide yes;
 	decide no;
 
 cur-moves is a number that varies.
+bad-keys-found is a number that varies.
+bad-keys-this-time is a truth state that varies.
 
 after reading a command:
 	if player is in room 50196, continue the action;
@@ -236,11 +237,15 @@ after reading a command:
 		if contradictory-guess is true:
 			say "You have two contradictory descriptions.";
 			reject the player's command;
-		if all-bad-so-far is true:
+		if all-bad-so-far is true and player is in 69105a:
 			increase ones by 36;
 			if ones > 1000:
 				increment thousands;
 				now ones is ones - 1000;
+			if ones is 68 and bad-keys-this-time is false:
+				now bad-keys-this-time is true;
+				say "You found the random 'worst' set of keys available! This is sort of a hidden easter egg.";
+				increment bad-keys-found;
 		if guessed-any is false, continue the action;
 		increment cur-moves;
 		if thousands < 69:
@@ -259,12 +264,13 @@ after reading a command:
 				else:
 					say "Congratulations on figuring things out for [LP] for the first time.";
 					now min-best of LP is cur-moves;
-				if cur-moves > 15, now cur-moves is 15;
-				increment entry cur-moves of room-freq of LP;
+			if cur-moves > 15, now cur-moves is 15;
+			increment entry cur-moves of room-freq of LP;
 			random-reset;
 			reject the player's command;
 
 when play begins:
+	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-moves > 15]15+[else][cur-moves][end if]";
 	random-reset;
 
 to random-reset:
@@ -284,25 +290,25 @@ to table-num-shuf (thistab - a table name):
 			choose row Q in thistab;
 			now temp3 is weight entry;
 			choose row Q2 in thistab;
-			now weight entry is temp2;
-			choose row Q in thistab;
 			now weight entry is temp3;
+			choose row Q in thistab;
+			now weight entry is temp2;
 
 to reshuffle-a:
 	repeat with X running through aroom keystrucs:
-		let Y be the number of rows in klist of X;
-		now goodnum of X is a random number between 1 and Y;
-		now badnum of X is goodnum of X + a random number between 1 and Y - 1;
-		if badnum of X > Y:
-			decrease badnum of X by Y;
+		let K be klist of X;
+		table-num-shuf K;
+		let Q be a random number between 1 and number of rows in K;
+		choose row Q in K;
+		if weight entry is 1:
+			let Q2 be a random number between 1 and (number of rows in K) - 1;
+			if Q2 >= Q, increment Q2;
+			now Q is Q2;
+		now badnum of X is Q;
 
 to reshuffle-b:
 	repeat with X running through broom keystrucs:
-		let Y be the number of rows in klist of X;
-		now goodnum of X is a random number between 1 and Y;
-		now badnum of X is goodnum of X + a random number between 1 and Y - 1;
-		if badnum of X > Y:
-			decrease badnum of X by Y;
+		table-num-shuf klist of X;
 
 volume odd verbs
 
@@ -360,19 +366,19 @@ check requesting the score:
 	else:
 		say "You have taken [cur-moves] move[plur of cur-moves] for this try.";
 	show-wins 69105a;
+	if bad-keys-found > 0, say "You also found [bad-keys-found] bad keys in [score-desc of 69105a].";
 	show-wins 69105b;
 	the rule succeeds;
 
 to say score-desc of (rm - a room):
-	if player is in rm:
-		say "this room";
+	say "[if player is in rm]this room[else][rm][end if]";
 
 to show-wins (rm - a room):
 	if wins of rm is 0:
 		say "You don't have any wins [if player is in rm]here[else]in [rm][end if] yet.";
 	else:
 		say "You have [wins of rm] win[plur of wins of rm] in [score-desc of rm], with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort.";
-		say "Here is a list of frequencies: ";
+		say "Here is a list of frequencies for turns taken to solve things: ";
 		let rmf be room-freq of rm;
 		let space-yet be false;
 		repeat with count running from 1 to number of entries in rmf:
