@@ -49,7 +49,11 @@ book room 69105a
 
 Room 69105a is a room.
 
-the key is a thing in Room 69105a. understand "keys" as key.
+the key is a thing in Room 69105a. understand "keys" as key. description is "BUG". "69,105 keys are littered all across the floor here. You can examine them all, or choose attributes to try to track down the ones that might fit the door."
+
+check examining key:
+	if player is in room 69105a, say "There are 69105 total keys here. You need to choose between thick/narrow, huge/long/medium/short, eagle/falcon/swordfih/octopus/dragon/troll, smiley/frowny/sneery/shouty/confused/annoyed/puckered and hexagonal/octagonal/rhomboid/trapezoid/circular/pentagonal/heptagonal/zigzag/starred/arrowed/bubbly/clovery." instead;
+	say "There are 69105 total keys here. You need to choose between double/single, rough/smooth/bumpy, numbered/brandname/generic/plain, and camo/argyle/pinstripe/gingham/tattersall/tartan/herringbone/houndstooth/paisley/floral/dotted." instead;
 
 chapter randomized tables for room 69105a
 
@@ -166,7 +170,7 @@ to mult-keys (KS - a keystruc):
 	let myk be klist of ks;
 	let tt be totwt of ks;
 	let j be the number of rows in myk;
-	say "Looking at [KS].";
+	say "(DEBUG) Looking at [KS].";
 	now j is (2 * j) - 3;
 	let cur-row be 0;
 	let got-this-time be false;
@@ -234,13 +238,19 @@ after reading a command:
 				now found-yet is true;
 				say "You see [keynum] such keys that fit the description.";
 				reject the player's command;
-			say "You got it!";
-			increment wins of location of player;
-			increase moves of location of player by cur-moves;
-			if min-best of location of player is 0 or min-best of location of player > cur-moves:
-				if min-best of location of player > 0, say "You have a new best: [cur-moves] guesses, beating out [min-best of location of player].";
+			say "You got it in [cur-moves] moves! As you turn the key in the lock, you take a secret passage that winds around to...";
+			let LP be location of player;
 			move player to Room 50196;
+			increment wins of LP;
+			increase moves of LP by cur-moves;
+			if min-best of LP is 0 or min-best of LP > cur-moves:
+				if min-best of LP > 0:
+					say "You have a new best: [cur-moves] guesses, beating out [min-best of LP].";
+					now min-best of LP is cur-moves;
+				else:
+					say "Congratulations on figuring things out for [LP] for the first time.";
 			random-reset;
+			reject the player's command;
 
 when play begins:
 	random-reset;
@@ -313,9 +323,9 @@ volume tallying results
 
 book records
 
-a room has a number called wins.
-a room has a number called moves.
-a room has a number called min-best.
+a room has a number called wins. wins of a room is usually 0.
+a room has a number called moves. moves of a room is usually 0.
+a room has a number called min-best. min-best of a room is usually 0.
 
 book requesting the score
 
