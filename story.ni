@@ -52,7 +52,7 @@ Room 69105a is a room.
 the key is a thing in Room 69105a. understand "keys" as key. description is "BUG". "69,105 keys are littered all across the floor here. You can examine them all, or choose attributes to try to track down the ones that might fit the door."
 
 check examining key:
-	if player is in room 69105a, say "There are 69105 total keys here. You need to choose between thick/narrow, huge/long/medium/short, eagle/falcon/swordfih/octopus/dragon/troll, smiley/frowny/sneery/shouty/confused/annoyed/puckered and hexagonal/octagonal/rhomboid/trapezoid/circular/pentagonal/heptagonal/zigzag/starred/arrowed/bubbly/clovery." instead;
+	if player is in room 69105a, say "There are 69105 total keys here. You need to choose between thick/narrow, huge/long/medium/short, eagle/falcon/swordfish/octopus/dragon/troll, smiley/frowny/sneery/shouty/confused/annoyed/puckered and hexagonal/octagonal/rhomboid/trapezoid/circular/pentagonal/heptagonal/zigzag/starred/arrowed/bubbly/clovery." instead;
 	say "There are 69105 total keys here. You need to choose between double/single, rough/smooth/bumpy, numbered/brandname/generic/plain, and camo/argyle/pinstripe/gingham/tattersall/tartan/herringbone/houndstooth/paisley/floral/dotted." instead;
 
 chapter randomized tables for room 69105a
@@ -170,7 +170,7 @@ to mult-keys (KS - a keystruc):
 	let myk be klist of ks;
 	let tt be totwt of ks;
 	let j be the number of rows in myk;
-	say "(DEBUG) Looking at [KS].";
+	[say "(DEBUG) Looking at [KS].";]
 	now j is (2 * j) - 3;
 	let cur-row be 0;
 	let got-this-time be false;
@@ -179,14 +179,14 @@ to mult-keys (KS - a keystruc):
 		if the player's command matches the regular expression "\b[descrip entry]\b":
 			now got-this-time is true;
 			if cur-row is goodnum of KS:
-				if debug-state is true, say "(DEBUG) Right.";
+				if debug-state is true, say "(DEBUG) [descrip entry] is right.";
 				now all-bad-so-far is false;
 				the rule succeeds;
 			else:
-				if debug-state is true, say "(DEBUG) Wrong.";
+				if debug-state is true, say "(DEBUG) [descrip entry] is wrong.";
 				if cur-row is not badnum of KS:
 					now all-bad-so-far is false;
-				if player is in 69105b:
+				if player is in 69105a:
 					one-thou 2;
 				else:
 					one-thou weight entry;
@@ -238,7 +238,7 @@ after reading a command:
 				now found-yet is true;
 				say "You see [keynum] such keys that fit the description.";
 				reject the player's command;
-			say "You got it in [cur-moves] moves! As you turn the key in the lock, you take a secret passage that winds around to...";
+			say "You found the right key in [cur-moves] move[plur of cur-moves]! As you turn the key in the lock, you take a secret passage that winds around to...";
 			let LP be location of player;
 			move player to Room 50196;
 			increment wins of LP;
@@ -249,6 +249,9 @@ after reading a command:
 					now min-best of LP is cur-moves;
 				else:
 					say "Congratulations on figuring things out for [LP] for the first time.";
+					now min-best of LP is cur-moves;
+				if cur-moves > 15, now cur-moves is 15;
+				increment entry cur-moves of room-freq of LP;
 			random-reset;
 			reject the player's command;
 
@@ -319,6 +322,18 @@ carry out abouting:
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	the rule succeeds;
 
+chapter verbsing
+
+verbsing is an action applying to nothing.
+
+understand the command "verbs" as something new.
+
+understand "verbs" as verbsing.
+
+carry out verbsing:
+	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK.";
+	the rule succeeds.
+
 volume tallying results
 
 book records
@@ -326,6 +341,7 @@ book records
 a room has a number called wins. wins of a room is usually 0.
 a room has a number called moves. moves of a room is usually 0.
 a room has a number called min-best. min-best of a room is usually 0.
+a room has a list of numbers called room-freq. room-freq of a room is usually {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}.
 
 book requesting the score
 
@@ -333,15 +349,29 @@ check requesting the score:
 	if player is in Room 50196:
 		say "You need to move northwest or northeast to try one of the rooms.";
 	else:
-		say "You have taken [cur-moves] move[plur of cur-moves] moves for this try.";
+		say "You have taken [cur-moves] move[plur of cur-moves] for this try.";
 	show-wins 69105a;
 	show-wins 69105b;
+	the rule succeeds;
+
+to say score-desc of (rm - a room):
+	if player is in rm:
+		say "this room";
 
 to show-wins (rm - a room):
 	if wins of rm is 0:
 		say "You don't have any wins in [rm] yet.";
 	else:
-		say "You have [wins of rm] win[plur of wins of rm] in the northwest room, with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort."
+		say "You have [wins of rm] win[plur of wins of rm] in [score-desc of rm], with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort.";
+		say "Here is a list of frequencies: ";
+		let rmf be room-freq of rm;
+		let space-yet be false;
+		repeat with count running from 1 to number of entries in rmf:
+			if entry count of rmf is 0, next;
+			if space-yet is true, say ", ";
+			now space-yet is true;
+			say "[count][if count is number of entries in rmf]+[end if] tr[if count is 1]y[else]ies[end if] [entry count of rmf] time[plur of entry count of rmf]";
+		say ".";
 
 volume debug - not for release
 
