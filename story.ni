@@ -333,8 +333,9 @@ understand the command "about" as something new.
 understand "about" as abouting.
 
 carry out abouting:
-	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him, and this game became one for me in a way, too. Perhaps it would be a good coding exercise for Twine, too. You could click on your next guess, and the number of keys left would appear.";
+	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him, and this game became one for me in a way, too, as well as a small arithmetic puzzle. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Simple math/logic games like this could be good to learn new languages.";
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
+	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a]."
 	the rule succeeds;
 
 chapter verbsing
@@ -348,6 +349,11 @@ understand "verbs" as verbsing.
 carry out verbsing:
 	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK.";
 	the rule succeeds.
+
+volume parser errors
+
+rule for printing a parser error (this is the parser catchall error):
+	say "There's nothing much to do here. You can [if player is in room 50196]go northwest or northeast[else]X (adjectives) KEYS until you get the right one[end if].";
 
 volume tallying results
 
