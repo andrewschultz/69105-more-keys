@@ -26,6 +26,12 @@ to decide which number is totwt of (k - a keystruc):
 		increase temp by weight entry;
 	decide on temp;
 
+the door is scenery. "It's just a door. One of the 69,105 keys fits it."
+
+instead of doing something with the door:
+	if the action is examining, continue the action;
+	say "You need to discover which key fits the door instead.";
+
 book room 50196
 
 Room 50196 is a room. "You are in room 50169. Scratched below you see 69105A and an arrow pointing northeast and 69105B and an arrow pointing northwest."
