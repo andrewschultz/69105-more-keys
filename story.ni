@@ -280,7 +280,7 @@ to send-them-back:
 	random-reset;
 
 when play begins:
-	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-moves > 15]15+[else][cur-moves][end if]";
+	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-moves > 15]15+[else][gessiz][end if]";
 	random-reset;
 
 to random-reset:
@@ -394,11 +394,14 @@ check requesting the score:
 	if player is in Room 50196:
 		say "You need to move northwest or northeast to try one of the rooms.";
 	else:
-		say "You have taken [cur-moves] move[plur of cur-moves] for this try.";
+		say "You have made [gessiz] in [location of player]. In other words, you've examined [cur-moves] specific group[plur of cur-moves] of keys this time in the room.";
 	show-wins 69105a;
 	if bad-keys-found > 0, say "You also found [bad-keys-found] bad keys in [score-desc of 69105a].";
 	show-wins 69105b;
 	the rule succeeds;
+
+to say gessiz:
+	say "[cur-moves] guess[unless cur-moves is 1]es[end if]"
 
 to say score-desc of (rm - a room):
 	say "[if player is in rm]this room[else][rm][end if]";
@@ -433,6 +436,12 @@ carry out solveing:
 	if cur-moves is 0:
 		say "Adjusting current number of move guesses to 1.";
 		now cur-moves is 1;
+	say "Solution:";
+	repeat with KS running through relevant keystrucs:
+		let T be klist of KS;
+		repeat through T:
+			if weight entry is 1, say " [descrip entry]";
+	say ".";
 	send-them-back;
 	the rule succeeds.
 
