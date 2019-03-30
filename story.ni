@@ -260,21 +260,24 @@ after reading a command:
 				say "You see [keynum] such keys that fit the description.";
 				reject the player's command;
 			say "You found the right key in [cur-moves] move[plur of cur-moves]! As you turn the key in the lock, you take a secret passage that winds around to...";
-			let LP be location of player;
-			move player to Room 50196;
-			increment wins of LP;
-			increase moves of LP by cur-moves;
-			if min-best of LP is 0 or min-best of LP > cur-moves:
-				if min-best of LP > 0:
-					say "You have a new best: [cur-moves] guesses, beating out [min-best of LP].";
-					now min-best of LP is cur-moves;
-				else:
-					say "Congratulations on figuring things out for [LP] for the first time.";
-					now min-best of LP is cur-moves;
-			if cur-moves > 15, now cur-moves is 15;
-			increment entry cur-moves of room-freq of LP;
-			random-reset;
+			send-them-back;
 			reject the player's command;
+
+to send-them-back:
+	let LP be location of player;
+	move player to Room 50196;
+	increment wins of LP;
+	increase moves of LP by cur-moves;
+	if min-best of LP is 0 or min-best of LP > cur-moves:
+		if min-best of LP > 0:
+			say "You have a new best: [cur-moves] guesses, beating out [min-best of LP].";
+			now min-best of LP is cur-moves;
+		else:
+			say "Congratulations on figuring things out for [LP] for the first time.";
+			now min-best of LP is cur-moves;
+	if cur-moves > 15, now cur-moves is 15;
+	increment entry cur-moves of room-freq of LP;
+	random-reset;
 
 when play begins:
 	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-moves > 15]15+[else][cur-moves][end if]";
@@ -405,7 +408,7 @@ to show-wins (rm - a room):
 		say "You don't have any wins [if player is in rm]here[else]in [rm][end if] yet.";
 	else:
 		say "You have [wins of rm] win[plur of wins of rm] in [score-desc of rm], with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort.";
-		say "Here is a list of frequencies for turns taken to solve things: ";
+		say "Here is a list of frequencies for turns taken to solve [rm]: ";
 		let rmf be room-freq of rm;
 		let space-yet be false;
 		repeat with count running from 1 to number of entries in rmf:
@@ -414,6 +417,24 @@ to show-wins (rm - a room):
 			now space-yet is true;
 			say "[count][if count is number of entries in rmf]+[end if] tr[if count is 1]y[else]ies[end if] [entry count of rmf] time[plur of entry count of rmf]";
 		say ".";
+
+volume beta testing - not for release
+
+chapter solveing
+
+solveing is an action applying to nothing.
+
+understand the command "solve" as something new.
+
+understand "solve" as solveing.
+
+carry out solveing:
+	if player is in room 50196, say "You can't solve the entry room." instead;
+	if cur-moves is 0:
+		say "Adjusting current number of move guesses to 1.";
+		now cur-moves is 1;
+	send-them-back;
+	the rule succeeds.
 
 volume debug - not for release
 
