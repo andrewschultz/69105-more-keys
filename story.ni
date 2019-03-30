@@ -26,15 +26,15 @@ to decide which number is totwt of (k - a keystruc):
 		increase temp by weight entry;
 	decide on temp;
 
-the door is scenery. "It's just a door. One of the 69,105 keys fits it."
+door 69105 is scenery. "It's just a door. One of the 69,105 keys fits it."
 
-instead of doing something with the door:
-	if the action is examining, continue the action;
+instead of doing something with door 69105:
+	if current action is examining, continue the action;
 	say "You need to discover which key fits the door instead.";
 
 book room 50196
 
-Room 50196 is a room. "You are in room 50169. Scratched below you see 69105A and an arrow pointing northeast and 69105B and an arrow pointing northwest."
+Room 50196 is a room. "You are in room 50196. Scratched below you see 69105A and an arrow pointing northeast and 69105B and an arrow pointing northwest."
 
 check going nowhere in Room 50196: say "There are really only two ways to go: northeast and northwest." instead;
 
@@ -44,6 +44,7 @@ check going northeast in Room 50196:
 
 to key-move (r - a room):
 	move the key to r;
+	move door 69105 to r;
 	move the player to r;
 
 check going northwest in Room 50196:
@@ -327,7 +328,7 @@ understand the command "xyzzy" as something new.
 understand "xyzzy" as xyzzying.
 
 carry out xyzzying:
-	say "You wonder if jiggling the wrong key back and forth could fool the lock. Then you regret not searching for a suitable PICK ANY LOCK videos on Youtube. Nope, you're going to have to use guesswork here.";
+	say "[if player is in room 50196]You don't need any desperate measures, yet[else]You wonder if jiggling the wrong key back and forth in the lock could open it. Then you regret not searching for a suitable PICK ANY LOCK videos on Youtube. Nope, you're going to have to use guesswork here. Maybe when you get home, it'll be something to sit and learn. It might even be easier than all this exhausting logical deduction[end if].";
 	the rule succeeds.
 
 chapter abouting
@@ -339,10 +340,22 @@ understand the command "about" as something new.
 understand "about" as abouting.
 
 carry out abouting:
-	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him, and this game became one for me in a way, too, as well as a small arithmetic puzzle. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Simple math/logic games like this could be good to learn new languages.";
+	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him, and this game became one for me in a way, too, as well as a small arithmetic puzzle. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, but it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Writing (relatively) simple math/logic games like this could be good to learn new languages. You can also see who helped with this game with CREDITS.";
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
-	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a]."
+	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
 	the rule succeeds;
+
+chapter creditsing
+
+creditsing is an action applying to nothing.
+
+understand the command "credits" as something new.
+
+understand "credits" as creditsing.
+
+carry out creditsing:
+	say "Thanks to (list of testers here). Thanks to Aaron Reed for hosting Spring Thing 2019 as well as previous iterations. Thanks to you for playing.";
+	the rule succeeds.
 
 chapter verbsing
 
@@ -358,8 +371,10 @@ carry out verbsing:
 
 volume parser errors
 
-rule for printing a parser error (this is the parser catchall error):
-	say "There's nothing much to do here. You can [if player is in room 50196]go northwest or northeast[else]X (adjectives) KEYS until you get the right one[end if].";
+rule for printing a parser error:
+	if player is in room 50196 and the player's command includes "arrow":
+		say "The arrows are just there to give directions. You don't need to do anything with them." instead;
+	say "There's nothing much to do here. You don't need any fancy verbs[if player is not in room 50196], just adjectives, mostly, to get the right key[end if]. You can [if player is in room 50196]go northwest or northeast[else]X (adjectives) KEYS until you get the right one[end if].";
 
 volume tallying results
 
