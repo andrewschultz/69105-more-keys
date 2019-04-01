@@ -55,7 +55,7 @@ check going northwest in Room 50196:
 	key-move 69105b instead;
 
 after looking in room 50196 for the first time:
-	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make a more mathy variant. And for his permisssion to make this sequel. Also, Type ABOUT to see general advice, or VERBS to see what sort of verbs to use.[close bracket][paragraph break]";
+	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, Type ABOUT to see general advice, or VERBS to see what sort of verbs to use.[close bracket][paragraph break]";
 
 book room 69105a
 
@@ -68,21 +68,29 @@ after doing something with keys:
 	continue the action;
 
 to say key-desc:
-	let first-item be false;
-	say "There are 69105 total keys here. You need to find the right attribute in each group:[line break]";
+	let cur-row be 1;
+	say "There are 69105 total keys here. Each has [number of relevant keystrucs in words] different defining attributes:[line break]";
 	repeat with Q running through relevant keystrucs:
 		say "[line break]";
-		now first-item is true;
+		now cur-row is 1;
 		repeat through klist of Q:
-			say "[if first-item is true]* [Q] are [else], [end if]";
-			now first-item is false;
+			if cur-row is 1:
+				say "* ";
+				say "[Q]" in upper case;
+				say " can be ";
+			else if cur-row is number of rows in klist of Q:
+				say " or ";
+			else:
+				say ", ";
+			increment cur-row;
 			say "[if gyet entry is true][bold type][end if][descrip entry][roman type]";
+		say ".[no line break]";
 	the rule succeeds;
 
 bold-hint-yet is a truth state that varies.
 
 after examining keys:
-	if bold-hint-yet is false and cur-moves > 0:
+	if bold-hint-yet is false and cur-guesses > 0:
 		say "NOTE: text in bold means something you've already guessed.";
 		now bold-hint-yet is true;
 	continue the action;
@@ -91,8 +99,8 @@ chapter randomized tables for room 69105a
 
 table of kwidths
 descrip	weight	gyet
-"thick"	1	False
-"narrow"	2	--
+"narrow"	1	False
+"thick"	2	--
 
 widths is a keystruc. klist of widths is table of kwidths.
 
@@ -107,41 +115,41 @@ lengths is a keystruc. klist of lengths is table of klengths.
 
 table of kbrands
 descrip	weight	gyet
-"eagle"	1	False
+"dragon"	1	False
+"eagle"	2	--
 "falcon"	2	--
-"swordfish"	2	--
 "octopus"	2	--
-"dragon"	2	--
+"swordfish"	2	--
 "troll"	2	--
 
 brands is a keystruc. klist of brands is table of kbrands.
 
 table of kfaces
 descrip	weight	gyet
-"smiley"	1	False
-"frowny"	2	--
-"sneery"	2	--
-"shouty"	2	--
+"annoyed"	1	False
 "confused"	2	--
-"annoyed"	2	--
+"frowny"	2	--
 "puckered"	2	--
+"shouty"	2	--
+"smiley"	2	--
+"sneery"	2	--
 
 faces is a keystruc. klist of faces is table of kfaces.
 
 table of khandles
 descrip	weight	gyet
-"hexagonal"	1	False
-"octagonal"	2	--
-"rhomboid"	2	--
-"trapezoid"	2	--
-"circular"	2	--
-"pentagonal"	2	--
-"heptagonal"	2	--
-"zigzag"	2	--
-"starred"	2	--
-"arrowed"	2	--
+"arrowed"	1	False
 "bubbly"	2	--
+"circular"	2	--
 "clovery"	2	--
+"heptagonal"	2	--
+"hexagonal"	2	--
+"octagonal"	2	--
+"pentagonal"	2	--
+"rhomboid"	2	--
+"starred"	2	--
+"trapezoid"	2	--
+"zigzag"	2	--
 
 handles is a keystruc. klist of handles is table of khandles.
 
@@ -159,41 +167,41 @@ chapter random tables for room 69105b
 
 table of kgrooves
 descrip	weight	gyet
-"double"	1	--
+"double"	1	False
 "single"	2	--
 
 grooves is a keystruc. klist of grooves is table of kgrooves. grooves is broom.
 
 table of ktextures
 descrip	weight	gyet
-"rough"	1	False
+"bumpy"	1	False
+"rough"	2	--
 "smooth"	2	--
-"bumpy"	2	--
 
 textures is a keystruc. klist of textures is table of ktextures. textures is broom.
 
 table of kfonts
 descrip	weight	gyet
-"Cambria"	1	False
-"Helvetica"	3	--
-"Arial"	5	--
-"Calibri"	8	--
+"Arial"	1	False
+"Calibri"	3	--
+"Cambria"	5	--
+"Helvetica"	8	--
 
 fonts is a keystruc. klist of fonts is table of kfonts. fonts is broom.
 
 table of kpatterns
 descrip	weight	gyet
-"camo"	1	False
-"argyle"	9	--
-"pinstripe"	13	--
-"gingham"	17	--
-"tattersall"	21	--
-"tartan"	25	--
-"herringbone"	29	--
-"houndstooth"	33	--
-"paisley"	37	--
-"floral"	41	--
-"dotted"	45	--
+"argyle"	1	False
+"camo"	9	--
+"dotted"	13	--
+"floral"	17	--
+"gingham"	21	--
+"herringbone"	25	--
+"houndstooth"	29	--
+"paisley"	33	--
+"pinstripe"	37	--
+"tartan"	41	--
+"tattersall"	45	--
 
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
 
@@ -251,7 +259,7 @@ definition: a keystruc (called myks) is relevant:
 	if player is in 69105b and myks is broom, decide yes;
 	decide no;
 
-cur-moves is a number that varies.
+cur-guesses is a number that varies.
 bad-keys-found is a number that varies.
 bad-keys-this-time is a truth state that varies.
 
@@ -278,12 +286,12 @@ after reading a command:
 				say "You found the random 'worst' set of keys available! This is sort of a hidden easter egg.";
 				increment bad-keys-found;
 		if guessed-any is false, continue the action;
-		increment cur-moves;
+		increment cur-guesses;
 		if thousands < 69:
 			if thousands > 0 or ones > 1:
-				say "You see [keynum] such keys that fit the description.";
+				say "You see [keynum] such keys that fit the description. To see all adjectives, just type X.";
 				reject the player's command;
-			say "You found the right key in [cur-moves] move[plur of cur-moves]! As you turn the key in the lock, you take a secret passage that winds around to...";
+			say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
 			send-them-back;
 			reject the player's command;
 
@@ -291,26 +299,26 @@ to send-them-back:
 	let LP be location of player;
 	move player to Room 50196;
 	increment wins of LP;
-	increase moves of LP by cur-moves;
-	if min-best of LP is 0 or min-best of LP > cur-moves:
+	increase moves of LP by cur-guesses;
+	if min-best of LP is 0 or min-best of LP > cur-guesses:
 		if min-best of LP > 0:
-			say "You have a new best: [cur-moves] guesses, beating out [min-best of LP].";
-			now min-best of LP is cur-moves;
+			say "You have a new best: [cur-guesses] guesses, beating out [min-best of LP].";
+			now min-best of LP is cur-guesses;
 		else:
 			say "Congratulations on figuring things out for [LP] for the first time.";
-			now min-best of LP is cur-moves;
-	if cur-moves > 15, now cur-moves is 15;
-	increment entry cur-moves of room-freq of LP;
+			now min-best of LP is cur-guesses;
+	if cur-guesses > 15, now cur-guesses is 15;
+	increment entry cur-guesses of room-freq of LP;
 	random-reset;
 
 when play begins:
-	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-moves > 15]15+[else][gessiz][end if]";
+	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-guesses > 15]15+[else][gessiz][end if]";
 	random-reset;
 
 to random-reset:
 	reshuffle-a;
 	reshuffle-b;
-	now cur-moves is 0;
+	now cur-guesses is 0;
 
 to table-num-shuf (thistab - a table name):
 	let temp be number of rows in thistab;
@@ -374,6 +382,7 @@ carry out abouting:
 	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him (you can search for the code online--69105.inf,) but it seemed like it might be tricky in Inform 7.[paragraph break]Challenge accepted! But I didn't want to copy his puzzle mechanics, and I didn't come close to replicating all the neat jokes he put in his game. And I wondered. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, and it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Writing (relatively) simple math/logic games like this could be good to learn new languages. You can also see who helped with this game with CREDITS.";
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
+	say "[line break]Also, you may find it is tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. Unfortunately, I don't have abbreviations for some of the longer adjectives, yet. Maybe post-Spring Thing.";
 	the rule succeeds;
 
 chapter creditsing
@@ -422,14 +431,14 @@ check requesting the score:
 	if player is in Room 50196:
 		say "You need to move northwest or northeast to try one of the rooms.";
 	else:
-		say "You have made [gessiz] in [location of player]. In other words, you've examined [cur-moves] specific group[plur of cur-moves] of keys this time in the room.";
+		say "You have made [gessiz] in [location of player]. In other words, you've examined [cur-guesses] specific group[plur of cur-guesses] of keys this time in the room.";
 	show-wins 69105a;
 	if bad-keys-found > 0, say "You also found [bad-keys-found] bad keys in [score-desc of 69105a].";
 	show-wins 69105b;
 	the rule succeeds;
 
 to say gessiz:
-	say "[cur-moves] guess[unless cur-moves is 1]es[end if]"
+	say "[cur-guesses] guess[unless cur-guesses is 1]es[end if]"
 
 to say score-desc of (rm - a room):
 	say "[if player is in rm]this room[else][rm][end if]";
@@ -461,9 +470,9 @@ understand "solve" as solveing.
 
 carry out solveing:
 	if player is in room 50196, say "You can't solve the entry room." instead;
-	if cur-moves is 0:
+	if cur-guesses is 0:
 		say "Adjusting current number of move guesses to 1.";
-		now cur-moves is 1;
+		now cur-guesses is 1;
 	say "Solution:";
 	repeat with KS running through relevant keystrucs:
 		let T be klist of KS;
