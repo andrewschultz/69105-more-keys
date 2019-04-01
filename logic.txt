@@ -1,21 +1,25 @@
 Here is the logic of 69105 more keys. Well, both rooms. It covers both how I figured things out and how you can.
 
-Each puzzle relies on how two numbers factor.
+Each puzzle relies on how two odd numbers factor.
 
-I used a PERL program to determine a number's factors. 69105 had 271 as a factor, so first, I wanted to go with something odd, with no factor greater than 30.
+I used a PERL program to determine a number's factors. 69105 had 271 as a factor, and I wasn't about to find 136 different attributes to choose from. That probably would've annoyed you, too. So I decided to find the highest number below 69105 with relatively small factors. I went with under 30.
 
-69069 was such a number, and it went in room 69105a, which wasn't even 69105a at first. I didn't know there'd be a 69105b.
+69069 was the largest such a number, and it went in room 69105a, which wasn't even 69105a at first. I didn't know there'd be a 69105b. I figured there was no other way to do things.
 
-69069 = 23*13*11*7*3. (Math team/trivia types will recognize 1001=13*11*7 immediately.)
+69069 = 23*13*11*7*3. (Math trivia fans may recognize 1001=13*11*7 immediately.)
 
-For factor X, we then have the following:
+The odd numbers may seem sticky, but actually, they fall into place nicely.
 
 --descriptions that aren't unique are weighted by 2
---descriptions that are unique are weighted by 1
+--descriptions that are unique (e.g. the key we are looking for) are weighted by 1
 
---the remaining 36 keys are in a "worst" combination. In other words, one of the 11*6*5*3*1-1=989 wrong combinations gets them. So you get a fun message if you find that. It's probably best done by guessing one at a time.
+--the remaining 36 keys are in a "worst" combination. In other words, one of the 11*6*5*3*1-1=989 wrong combinations gets them. So you get a fun message if you find that. You probably won't find the right combination by accident at first. There is a 1/12*7*6*4*3=1/6048 chance of that. So you can just go with an attirubte you know is wrong and search for the wrong one.
 
-The game thus becomes a puzzle to detect by trial and error which are right. You only know how many keys you've got right, though.
+But for the right one, the game becomes a puzzle to detect by trial and error which are right. If there are 2^n unique key patterns, then you have n wrong, or (5-n) right. Then you can narrow things down by just changing one adjective with each guess.
+
+This is a lot of trial and error, but you can also make educated guesses at first by, say, switching the thick/narrow and hexagonal/.../clovery attributes. Depending on if the number of keys remaining drops or increases, you can imply, respectively, that the second guess (drops) is right and the first (increases) is wrong.
+
+If it remains even, then one of the two is right, which seems like a nuisance, until you can maybe try to change the smiley/.../puckered attribute and the hexagonal/.../clovery. The key is to get early guesses in on the attributes with the most possibilities. Because the ones with fewer possibilities are more likely to be the ones you guess right at first, and if you eliminate possibilities for the attributes with more variety, you may be able to see if a key is thick/narrow without ever switching thick/narrow.
 
 69105b allows for a bit more targeted guessing. It's based on how 69105 factors.
 
@@ -28,19 +32,22 @@ Now, the number of keys in a wrong guess is weighted differently. You may see th
 5=1+2+2
 3=1+2
 
-You'll notice there aren't a lot of even numbers. So if the number is divisible by 8, 17 (writing) is wrong, and you can divide what you have by 8.
+You'll notice there aren't a lot of even numbers.
+
+If the number of keys left is divisible by 8, 17 (the key's font) is wrong, and you can divide what you have by 8.
 
 If that number is divisible by 4, both 5 (textures) and 3 (grooves) are wrong.
 
-If 2, one is wrong. So you can, in fact, twiddle grooves and textures on move 2. If the next number is divisible by 2, you know you had 1 right and 1 wrong both ways, so you need 2 more guesses.
+However, if that number is only divisible by 2, one is wrong. So you can, in fact, twiddle grooves and textures on move 2. If the next number is divisible by 2, you know you had 1 right and 1 wrong both ways, so you need 2 more guesses.
 
-If it's divisible by 4, yay!
+With the next guess twiddling grooves and textures, if the number of keys remaining is divisible by 4, yay! You know this guess was right, and a previous guess, you got something wring.
 
-If it's divisible by 0, then you know 3 must've been right and your guesses for 5 were wrong.
+If it's divisible by 0, then you know 3 must've been right and your guesses for 5 were wrong. So you can focus on that pretty quickly.
 
-Now you need to pay attention to 17*271. The only possible mess is if you get a product of 45. Then you may have 5/9 or 1/45. But if you make a different guess with both, you should be able to detect things. If it's still 35, change only one of the guesses next time.
+Now you need to pay attention to 17*271. Note that multiplying a number in the sum up to 271 and a number in the sum up to 17 usually gives a unique product ... unless you 45*2^n. In this case, the number of keys may be (5 and 9) or (1 and 45). But if you make a different guess with both, you should be able to detect which was the case. There's a small possibility you may get 45 again, but that's okay. You can then just switch the pattern (271) and you will know which you got right.
 
-This leaves a bit of an unfortunate mess of guesswork for 271. Sorry. Blame the number, not me!
+You can, with a bit of scratch paper, get the grooves, textures and fonts right within 3 or 4 moves. That leaves a bit of an unfortunate mess of guesswork for 271. Sorry about that.
 
-(Note: a possibility here was 271=1+57+64+71+78. Then we would use similar reasoning to see that if a number was divisible by 64, then 271 was wrong. Or if by 13, then 271 was wrong--it was 78.)
+(Note: an outside possibility here was 271=1+57+64+71+78. Then we would use similar reasoning to see that if a number was divisible by 64, then 271 was wrong. Or if by 13, then 271 was wrong--it was 78. Perhaps in the post-comp release I will implement room 69105c, once you solve room 69105b often enough.)
 
+Of course, you can also use the UNDO function to make the game think you found all the keys in one guess. I'd like to be able to give the player a chance to experiment.
