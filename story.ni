@@ -68,7 +68,7 @@ to say key-desc:
 	repeat with Q running through relevant keystrucs:
 		now first-item is true;
 		repeat through klist of Q:
-			say "[if first-item is true]* [else], [end if]";
+			say "[if first-item is true]* [Q] are [else], [end if]";
 			now first-item is false;
 			say "[descrip entry]";
 		say "[line break]";
@@ -159,14 +159,14 @@ descrip	weight
 
 textures is a keystruc. klist of textures is table of ktextures. textures is broom.
 
-table of kwriting
+table of kfonts
 descrip	weight
-"numbered"	1
-"brandname"	3
-"generic"	5
-"plain"	8
+"Cambria"	1
+"Helvetica"	3
+"Arial"	5
+"Calibri"	8
 
-writing is a keystruc. klist of writing is table of kwriting. writing is broom.
+fonts is a keystruc. klist of fonts is table of kfonts. fonts is broom.
 
 table of kpatterns
 descrip	weight
@@ -197,7 +197,7 @@ to mult-keys (KS - a keystruc):
 	let guesses-in-table be 0;
 	repeat through myk:
 		increment cur-row;
-		if the player's command matches the regular expression "\b[descrip entry]\b":
+		if the player's command matches the regular expression "\b[descrip entry]\b", case insensitively:
 			increment guesses-in-table;
 			say "Got [guesses-in-table] match for [descrip entry].";
 			if guesses-in-table is 2:
@@ -353,7 +353,7 @@ understand the command "about" as something new.
 understand "about" as abouting.
 
 carry out abouting:
-	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him, and this game became one for me in a way, too, as well as a small arithmetic puzzle. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, but it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Writing (relatively) simple math/logic games like this could be good to learn new languages. You can also see who helped with this game with CREDITS.";
+	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him (you can search for the code online--69105.inf,) but it seemed like it might be tricky in Inform 7.[paragraph break]Challenge accepted! But I didn't want to copy his puzzle mechanics, and I didn't come close to replicating all the neat jokes he put in his game. And I wondered. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, and it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Writing (relatively) simple math/logic games like this could be good to learn new languages. You can also see who helped with this game with CREDITS.";
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
 	the rule succeeds;
