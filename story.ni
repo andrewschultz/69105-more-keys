@@ -38,6 +38,8 @@ Room 50196 is a room. "You are in room 50196. Scratched below you see 69105A and
 
 check going nowhere in Room 50196: say "There are really only two ways to go: northeast and northwest." instead;
 
+check going nowhere: say "You aren't going anywhere until you find the right key." instead;
+
 check going northeast in Room 50196:
 	say "You hear a whirring behind you as the passage back closes.";
 	key-move 69105a instead;
@@ -58,11 +60,19 @@ book room 69105a
 
 Room 69105a is a room.
 
-the key is a thing in Room 69105a. understand "keys" as key. description is "BUG". "69,105 keys are littered all across the floor here. You can examine them all, or choose attributes to try to track down the ones that might fit the door."
+the key is a thing in Room 69105a. understand "keys" as key. description is "[key-desc]". "69,105 keys are littered all across the floor here. You can examine them all, or choose attributes to try to track down the ones that might fit the door."
 
-check examining key:
-	if player is in room 69105a, say "There are 69105 total keys here. You need to choose between thick/narrow, huge/long/medium/short, eagle/falcon/swordfish/octopus/dragon/troll, smiley/frowny/sneery/shouty/confused/annoyed/puckered and hexagonal/octagonal/rhomboid/trapezoid/circular/pentagonal/heptagonal/zigzag/starred/arrowed/bubbly/clovery." instead;
-	say "There are 69105 total keys here. You need to choose between double/single, rough/smooth/bumpy, numbered/brandname/generic/plain, and camo/argyle/pinstripe/gingham/tattersall/tartan/herringbone/houndstooth/paisley/floral/dotted." instead;
+to say key-desc:
+	let first-item be false;
+	say "There are 69105 total keys here. You need to find the right attribute in each group:[paragraph break]";
+	repeat with Q running through relevant keystrucs:
+		now first-item is true;
+		repeat through klist of Q:
+			say "[if first-item is true]* [else], [end if]";
+			now first-item is false;
+			say "[descrip entry]";
+		say "[line break]";
+	the rule succeeds;
 
 chapter randomized tables for room 69105a
 
