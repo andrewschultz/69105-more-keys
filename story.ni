@@ -12,8 +12,7 @@ include Trivial Niceties Z-Only by Andrew Schultz.
 
 include Basic Screen Effects by Emily Short.
 
-[below can be commented/uncommented as needed to perform tests.]
-include 69105 Tests by Andrew Schultz.
+description of the player is "[if player is in room 50196]As ready for logic puzzles as ever[else]You look great! But you'd look even greater with the right key to open the door[end if]."
 
 debug-state is a truth state that varies.
 
@@ -32,6 +31,8 @@ instead of doing something with door 69105:
 	if current action is examining, continue the action;
 	say "You need to discover which key fits the door instead.";
 
+To set the/-- pronoun it to (O - an object): (- LanguagePronouns-->3 = {O}; -).
+
 book room 50196
 
 Room 50196 is a room. "You are in room 50196. Scratched below you see 69105A and an arrow pointing northeast and 69105B and an arrow pointing northwest."
@@ -45,7 +46,7 @@ check going northeast in Room 50196:
 	key-move 69105a instead;
 
 to key-move (r - a room):
-	move the key to r;
+	move the keys to r;
 	move door 69105 to r;
 	move the player to r;
 
@@ -60,75 +61,87 @@ book room 69105a
 
 Room 69105a is a room.
 
-the key is a thing in Room 69105a. understand "keys" as key. description is "[key-desc]". "69,105 keys are littered all across the floor here. You can examine them all, or choose attributes to try to track down the ones that might fit the door."
+the keys are a plural-named thing in Room 69105a. description is "[key-desc]". "69,105 keys are littered all across the floor here. You can examine them all, or choose attributes to try to track down the ones that might fit the door.". understand "key" as keys.
+
+after doing something with keys:
+	set the pronoun it to keys;
+	continue the action;
 
 to say key-desc:
 	let first-item be false;
-	say "There are 69105 total keys here. You need to find the right attribute in each group:[paragraph break]";
+	say "There are 69105 total keys here. You need to find the right attribute in each group:[line break]";
 	repeat with Q running through relevant keystrucs:
+		say "[line break]";
 		now first-item is true;
 		repeat through klist of Q:
 			say "[if first-item is true]* [Q] are [else], [end if]";
 			now first-item is false;
-			say "[descrip entry]";
-		say "[line break]";
+			say "[if gyet entry is true][bold type][end if][descrip entry][roman type]";
 	the rule succeeds;
+
+bold-hint-yet is a truth state that varies.
+
+after examining keys:
+	if bold-hint-yet is false and cur-moves > 0:
+		say "NOTE: text in bold means something you've already guessed.";
+		now bold-hint-yet is true;
+	continue the action;
 
 chapter randomized tables for room 69105a
 
 table of kwidths
-descrip	weight
-"thick"	1
-"narrow"	2
+descrip	weight	gyet
+"thick"	1	False
+"narrow"	2	--
 
 widths is a keystruc. klist of widths is table of kwidths.
 
 table of klengths
-descrip	weight
-"huge"	1
-"long"	2
-"medium"	2
-"short"	2
+descrip	weight	gyet
+"huge"	1	False
+"long"	2	--
+"medium"	2	--
+"short"	2	--
 
 lengths is a keystruc. klist of lengths is table of klengths.
 
 table of kbrands
-descrip	weight
-"eagle"	1
-"falcon"	2
-"swordfish"	2
-"octopus"	2
-"dragon"	2
-"troll"	2
+descrip	weight	gyet
+"eagle"	1	False
+"falcon"	2	--
+"swordfish"	2	--
+"octopus"	2	--
+"dragon"	2	--
+"troll"	2	--
 
 brands is a keystruc. klist of brands is table of kbrands.
 
 table of kfaces
-descrip	weight
-"smiley"	1
-"frowny"	2
-"sneery"	2
-"shouty"	2
-"confused"	2
-"annoyed"	2
-"puckered"	2
+descrip	weight	gyet
+"smiley"	1	False
+"frowny"	2	--
+"sneery"	2	--
+"shouty"	2	--
+"confused"	2	--
+"annoyed"	2	--
+"puckered"	2	--
 
 faces is a keystruc. klist of faces is table of kfaces.
 
 table of khandles
-descrip	weight
-"hexagonal"	1
-"octagonal"	2
-"rhomboid"	2
-"trapezoid"	2
-"circular"	2
-"pentagonal"	2
-"heptagonal"	2
-"zigzag"	2
-"starred"	2
-"arrowed"	2
-"bubbly"	2
-"clovery"	2
+descrip	weight	gyet
+"hexagonal"	1	False
+"octagonal"	2	--
+"rhomboid"	2	--
+"trapezoid"	2	--
+"circular"	2	--
+"pentagonal"	2	--
+"heptagonal"	2	--
+"zigzag"	2	--
+"starred"	2	--
+"arrowed"	2	--
+"bubbly"	2	--
+"clovery"	2	--
 
 handles is a keystruc. klist of handles is table of khandles.
 
@@ -145,42 +158,42 @@ Room 69105b is a room.
 chapter random tables for room 69105b
 
 table of kgrooves
-descrip	weight
-"double"	1
-"single"	2
+descrip	weight	gyet
+"double"	1	--
+"single"	2	--
 
 grooves is a keystruc. klist of grooves is table of kgrooves. grooves is broom.
 
 table of ktextures
-descrip	weight
-"rough"	1
-"smooth"	2
-"bumpy"	2
+descrip	weight	gyet
+"rough"	1	False
+"smooth"	2	--
+"bumpy"	2	--
 
 textures is a keystruc. klist of textures is table of ktextures. textures is broom.
 
 table of kfonts
-descrip	weight
-"Cambria"	1
-"Helvetica"	3
-"Arial"	5
-"Calibri"	8
+descrip	weight	gyet
+"Cambria"	1	False
+"Helvetica"	3	--
+"Arial"	5	--
+"Calibri"	8	--
 
 fonts is a keystruc. klist of fonts is table of kfonts. fonts is broom.
 
 table of kpatterns
-descrip	weight
-"camo"	1
-"argyle"	9
-"pinstripe"	13
-"gingham"	17
-"tattersall"	21
-"tartan"	25
-"herringbone"	29
-"houndstooth"	33
-"paisley"	37
-"floral"	41
-"dotted"	45
+descrip	weight	gyet
+"camo"	1	False
+"argyle"	9	--
+"pinstripe"	13	--
+"gingham"	17	--
+"tattersall"	21	--
+"tartan"	25	--
+"herringbone"	29	--
+"houndstooth"	33	--
+"paisley"	37	--
+"floral"	41	--
+"dotted"	45	--
 
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
 
@@ -199,7 +212,8 @@ to mult-keys (KS - a keystruc):
 		increment cur-row;
 		if the player's command matches the regular expression "\b[descrip entry]\b", case insensitively:
 			increment guesses-in-table;
-			say "Got [guesses-in-table] match for [descrip entry].";
+			now gyet entry is true;
+			if debug-state is true, say "(Debug) Got [guesses-in-table] match for [descrip entry].";
 			if guesses-in-table is 2:
 				now contradictory-guess is true;
 				the rule succeeds;
@@ -317,6 +331,8 @@ to table-num-shuf (thistab - a table name):
 to reshuffle-a:
 	repeat with X running through aroom keystrucs:
 		let K be klist of X;
+		repeat through K:
+			now gyet entry is false;
 		table-num-shuf K;
 		let Q be a random number between 1 and number of rows in K;
 		choose row Q in K;
@@ -329,6 +345,8 @@ to reshuffle-a:
 to reshuffle-b:
 	repeat with X running through broom keystrucs:
 		table-num-shuf klist of X;
+		repeat through klist of X:
+			now gyet entry is false;
 
 volume odd verbs
 
@@ -456,6 +474,9 @@ carry out solveing:
 	the rule succeeds.
 
 volume debug - not for release
+
+[below can be commented/uncommented as needed to perform tests.]
+include 69105 Tests by Andrew Schultz.
 
 when play begins:
 	now debug-state is true;
