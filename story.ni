@@ -244,6 +244,7 @@ to mult-keys (KS - a keystruc):
 			the rule succeeds;
 		now got-this-time is true;
 		now this-turn of KS is true;
+		now full-description is "[full-description] [descrip entry]";
 		if weight entry is 1:
 			now guessed-any is true;
 			if debug-state is true, say "(DEBUG) [descrip entry] is right.";
@@ -295,7 +296,10 @@ bad-keys-this-time is a truth state that varies.
 
 disambiguating is a truth state that varies.
 
+full-description is indexed text that varies.
+
 after reading a command:
+	now full-description is "";
 	if player is in room 50196, continue the action;
 	now ones is 1;
 	now hundreds is 0;
@@ -348,7 +352,7 @@ after reading a command:
 			reject the player's command;
 		if hundreds < 700:
 			if hundreds > 0 or ones > 1:
-				say "You see [keynum] such keys that fit the description. To see all adjectives, just type X.";
+				say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
 				reject the player's command;
 			say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
 			send-them-back;
