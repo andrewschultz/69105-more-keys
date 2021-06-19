@@ -22,7 +22,7 @@ does the player mean doing something with the player: it is likely.
 
 debug-state is a truth state that varies.
 
-a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom.
+a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom. a keystruc has a truth state called this-turn.
 
 to decide which number is totwt of (k - a keystruc):
 	let temp be 0;
@@ -105,58 +105,58 @@ after examining keys:
 chapter randomized tables for room 69105a
 
 table of kwidths
-descrip	abbrev	weight	gyet
-"narrow"	"nar"	1	False
-"thick"	"thi"	2	--
+descrip	abbrev	weight	gyet	disamb
+"narrow"	"nar"	1	False	text
+"thick"	"thi"	2	--	--
 
 widths is a keystruc. klist of widths is table of kwidths.
 
 table of klengths
-descrip	abbrev	weight	gyet
-"huge"	"hug"	1	False
-"long"	"lon"	2	--
-"medium"	"med"	2	--
-"short"	"shor"	2	--
+descrip	abbrev	weight	gyet	disamb
+"huge"	"hug"	1	False	--
+"long"	"lon"	2	--	--
+"medium"	"med"	2	--	--
+"short"	"shor"	2	--	"sho"
 
 lengths is a keystruc. klist of lengths is table of klengths.
 
 table of kbrands
-descrip	abbrev	weight	gyet
-"dragon"	"dra"	1	False
-"eagle"	"eag"	2	--
-"falcon"	"fal"	2	--
-"octopus"	"octo"	2	--
-"swordfish"	"swo"	2	--
-"troll"	"tro"	2	--
+descrip	abbrev	weight	gyet	disamb
+"dragon"	"dra"	1	False	--
+"eagle"	"eag"	2	--	--
+"falcon"	"fal"	2	--	--
+"octopus"	"octo"	2	--	"oct"
+"swordfish"	"swo"	2	--	--
+"troll"	"tro"	2	--	--
 
 brands is a keystruc. klist of brands is table of kbrands.
 
 table of kfaces
-descrip	abbrev	weight	gyet
-"annoyed"	"ann"	1	False
-"confused"	"con"	2	--
-"frowny"	"fro"	2	--
-"puckered"	"puc"	2	--
-"shouty"	"shou"	2	--
-"smiley"	"smi"	2	--
-"sneery"	"sne"	2	--
+descrip	abbrev	weight	gyet	disamb
+"annoyed"	"ann"	1	False	--
+"confused"	"con"	2	--	--
+"frowny"	"fro"	2	--	--
+"puckered"	"puc"	2	--	--
+"shouty"	"shou"	2	--	"sho"
+"smiley"	"smi"	2	--	--
+"sneery"	"sne"	2	--	--
 
 faces is a keystruc. klist of faces is table of kfaces.
 
 table of khandles
-descrip	abbrev	weight	gyet
-"arrowed"	"arr"	1	False
-"bubbly"	"bub"	2	--
-"circular"	"cir"	2	--
-"clovery"	"clo"	2	--
-"heptagonal"	"hep"	2	--
-"hexagonal"	"hex"	2	--
-"octagonal"	"octa"	2	--
-"pentagonal"	"pen"	2	--
-"rhomboid"	"rho"	2	--
-"starred"	"sta"	2	--
-"trapezoid"	"tra"	2	--
-"zigzag"	"zig"	2	--
+descrip	abbrev	weight	gyet	disamb
+"arrowed"	"arr"	1	False	--
+"bubbly"	"bub"	2	--	--
+"circular"	"cir"	2	--	--
+"clovery"	"clo"	2	--	--
+"heptagonal"	"hep"	2	--	--
+"hexagonal"	"hex"	2	--	--
+"octagonal"	"octa"	2	--	"oct"
+"pentagonal"	"pen"	2	--	--
+"rhomboid"	"rho"	2	--	--
+"starred"	"sta"	2	--	--
+"trapezoid"	"tra"	2	--	--
+"zigzag"	"zig"	2	--	--
 
 handles is a keystruc. klist of handles is table of khandles.
 
@@ -213,9 +213,9 @@ descrip	abbrev	weight	gyet
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
 
 table of ambiguities
-abbrev	loc	abbrev-expand
-"oct"	69105a	"octa(gonal) or octo(pus)"
-"sho"	69105a	"shor(t) or shou(ty)"
+abbrev	loc	abbrev-expand	revisit	t1	t2
+"oct"	69105a	"octa(gonal) or octo(pus)"	false	brands	handles
+"sho"	69105a	"shor(t) or shou(ty)"	false	faces	lengths
 
 volume main part
 
@@ -230,24 +230,30 @@ to mult-keys (KS - a keystruc):
 	let guesses-in-table be 0;
 	repeat through myk:
 		increment cur-row;
-		if the player's command matches the regular expression "\b[descrip entry]\b", case insensitively or the player's command matches the regular expression "\b[abbrev entry]\b", case insensitively:
-			increment guesses-in-table;
-			now gyet entry is true;
-			if debug-state is true, say "(Debug) Got [guesses-in-table] match for [descrip entry].";
-			if guesses-in-table is 2:
-				now contradictory-guess is true;
-				the rule succeeds;
-			now got-this-time is true;
-			if weight entry is 1:
-				now guessed-any is true;
-				if debug-state is true, say "(DEBUG) [descrip entry] is right.";
+		if disambiguating is false:
+			unless the player's command matches the regular expression "\b[descrip entry]\b", case insensitively or the player's command matches the regular expression "\b[abbrev entry]\b", case insensitively:
+				next;
+		if disambiguating is true:
+			unless there is a disamb entry and the player's command matches the regular expression "\b[disamb entry]\b", case insensitively:
+				next;
+		increment guesses-in-table;
+		now gyet entry is true;
+		if debug-state is true, say "(Debug) Got [guesses-in-table] match for [descrip entry].";
+		if guesses-in-table is 2:
+			now contradictory-guess is true;
+			the rule succeeds;
+		now got-this-time is true;
+		now this-turn of KS is true;
+		if weight entry is 1:
+			now guessed-any is true;
+			if debug-state is true, say "(DEBUG) [descrip entry] is right.";
+			now all-bad-so-far is false;
+		else:
+			if debug-state is true, say "(DEBUG) [descrip entry] is wrong.";
+			now guessed-any is true;
+			if cur-row is not badnum of KS:
 				now all-bad-so-far is false;
-			else:
-				if debug-state is true, say "(DEBUG) [descrip entry] is wrong.";
-				now guessed-any is true;
-				if cur-row is not badnum of KS:
-					now all-bad-so-far is false;
-			overflow-mult weight entry;
+		overflow-mult weight entry;
 	if got-this-time is false:
 		overflow-mult tt;
 
@@ -287,6 +293,8 @@ cur-guesses is a number that varies.
 bad-keys-found is a number that varies.
 bad-keys-this-time is a truth state that varies.
 
+disambiguating is a truth state that varies.
+
 after reading a command:
 	if player is in room 50196, continue the action;
 	now ones is 1;
@@ -296,12 +304,31 @@ after reading a command:
 		now guessed-any is false;
 		now contradictory-guess is false;
 		repeat through table of ambiguities:
+			now revisit entry is false;
 			if location of player is not loc entry, continue the action;
 			if the player's command matches the regular expression "\b[abbrev entry]\b":
-				say "NOTE: you gave the ambiguous entry [abbrev entry] as one of the words. Until I get smarter with disambiguation, it needs to be clarified to [abbrev-expand entry]."; [??smart ambiguities]	
-				reject the player's command;
+				now revisit entry is true;
+		now disambiguating is false; [should already be the case, but I'd rather be sure]
 		repeat with KS running through relevant keystrucs:
+			now this-turn of KS is false;
 			mult-keys KS;
+		repeat through table of ambiguities:
+			if revisit entry is true:
+				let pre1 be this-turn of t1 entry;
+				let pre2 be this-turn of t2 entry;
+				if pre1 is true and pre2 is true:
+					say "I wasn't able to resolve the ambiguity [abbrev entry] because both the attributes it referred to were already taken.";
+					reject the player's command;
+				if pre1 is false and pre2 is false:
+					say "I wasn't able to resolve the ambiguity [abbrev entry] because neither of the attributes it referred to were taken yet.";
+					now disambiguating is false;
+					reject the player's command;
+				now disambiguating is true;
+				if pre1 is true:
+					mult-keys t1 entry;
+				if pre2 is true:
+					mult-keys t2 entry;
+				now disambiguating is false;
 		if contradictory-guess is true:
 			say "You have two contradictory descriptions.";
 			reject the player's command;
@@ -417,7 +444,7 @@ carry out abouting:
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
 	say "[line break]Also, you may find it is tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. You can also abbreviate the adjectives to three letters. Only two pairs are ambiguous."; [?? smart ambiguity]
-	say "Source for this game should now be at http://github.com/andrewschultz/69105more."
+	say "Source for this game should now be at http://github.com/andrewschultz/69105more.";
 	the rule succeeds;
 
 chapter creditsing
