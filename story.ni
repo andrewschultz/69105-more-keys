@@ -404,7 +404,7 @@ carry out abouting:
 	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him (you can search for the code online--69105.inf,) but it seemed like it might be tricky in Inform 7.[paragraph break]Challenge accepted! But I didn't want to copy his puzzle mechanics, and I didn't come close to replicating all the neat jokes he put in his game. And I wondered. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, and it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Writing (relatively) simple math/logic games like this could be good to learn new languages. You can also see who helped with this game with CREDITS.";
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
-	say "[line break]Also, you may find it is tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. Unfortunately, I don't have abbreviations for some of the longer adjectives, yet. Maybe post-Spring Thing.";
+	say "[line break]Also, you may find it is tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. You can also abbreviate the adjectives to three letters. Only two pairs are ambiguous."; [?? smart ambiguity]
 	the rule succeeds;
 
 chapter creditsing
@@ -428,7 +428,7 @@ understand the command "verbs" as something new.
 understand "verbs" as verbsing.
 
 carry out verbsing:
-	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK.";
+	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK. So perhaps this command should have been called ADJECTIVES.";
 	the rule succeeds.
 
 volume parser errors
@@ -436,7 +436,26 @@ volume parser errors
 rule for printing a parser error:
 	if player is in room 50196 and the player's command includes "arrow":
 		say "The arrows are just there to give directions. You don't need to do anything with them." instead;
-	say "There's nothing much to do here. You don't need any fancy verbs[if player is not in room 50196], just adjectives, mostly, to get the right key[end if]. You can [if player is in room 50196]go northwest or northeast[else]X (adjectives) KEYS until you get the right one[end if].";
+	say "I didn't recognize that command.[paragraph break]";
+	give-help;
+
+to give-help:
+	say "However, there aren't many verbs to use here. You don't need any fancy verbs[if player is not in room 50196], just adjectives, mostly, to get the right key[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else]X (adjectives) KEYS until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four.";
+
+chapter helping
+
+helping is an action applying to nothing.
+
+understand the command "help" as something new.
+understand the command "hint" as something new.
+
+understand "help" as helping.
+understand "hint" as helping.
+
+carry out helping:
+	say "There is a walkthrough that describes strategy, if you want it. There is no actual winning state. A long-term goal of replaying the game is to decrease the number of turns needed adjectives needed.";
+	give-help;
+	the rule succeeds.
 
 volume tallying results
 
