@@ -500,3 +500,18 @@ include 69105 Tests by Andrew Schultz.
 when play begins:
 	now debug-state is true;
 
+chapter multing
+
+show-mult is a truth state that varies.
+
+multing is an action out of world.
+
+understand the command "mult" as something new.
+
+understand "mult" as multing.
+
+carry out multing:
+	now show-mult is whether or not show-mult is false;
+	say "Showing multiplication details is now [on-off of show-mult].";
+	the rule succeeds.
+
