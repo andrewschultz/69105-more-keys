@@ -103,58 +103,58 @@ after examining keys:
 chapter randomized tables for room 69105a
 
 table of kwidths
-descrip	weight	gyet
-"narrow"	1	False
-"thick"	2	--
+descrip	abbrev	weight	gyet
+"narrow"	"nar"	1	False
+"thick"	"thi"	2	--
 
 widths is a keystruc. klist of widths is table of kwidths.
 
 table of klengths
-descrip	weight	gyet
-"huge"	1	False
-"long"	2	--
-"medium"	2	--
-"short"	2	--
+descrip	abbrev	weight	gyet
+"huge"	"hug"	1	False
+"long"	"lon"	2	--
+"medium"	"med"	2	--
+"short"	"shor"	2	--
 
 lengths is a keystruc. klist of lengths is table of klengths.
 
 table of kbrands
-descrip	weight	gyet
-"dragon"	1	False
-"eagle"	2	--
-"falcon"	2	--
-"octopus"	2	--
-"swordfish"	2	--
-"troll"	2	--
+descrip	abbrev	weight	gyet
+"dragon"	"dra"	1	False
+"eagle"	"eag"	2	--
+"falcon"	"fal"	2	--
+"octopus"	"octo"	2	--
+"swordfish"	"swo"	2	--
+"troll"	"tro"	2	--
 
 brands is a keystruc. klist of brands is table of kbrands.
 
 table of kfaces
-descrip	weight	gyet
-"annoyed"	1	False
-"confused"	2	--
-"frowny"	2	--
-"puckered"	2	--
-"shouty"	2	--
-"smiley"	2	--
-"sneery"	2	--
+descrip	abbrev	weight	gyet
+"annoyed"	"ann"	1	False
+"confused"	"con"	2	--
+"frowny"	"fro"	2	--
+"puckered"	"puc"	2	--
+"shouty"	"shou"	2	--
+"smiley"	"smi"	2	--
+"sneery"	"sne"	2	--
 
 faces is a keystruc. klist of faces is table of kfaces.
 
 table of khandles
-descrip	weight	gyet
-"arrowed"	1	False
-"bubbly"	2	--
-"circular"	2	--
-"clovery"	2	--
-"heptagonal"	2	--
-"hexagonal"	2	--
-"octagonal"	2	--
-"pentagonal"	2	--
-"rhomboid"	2	--
-"starred"	2	--
-"trapezoid"	2	--
-"zigzag"	2	--
+descrip	abbrev	weight	gyet
+"arrowed"	"arr"	1	False
+"bubbly"	"bub"	2	--
+"circular"	"cir"	2	--
+"clovery"	"clo"	2	--
+"heptagonal"	"hep"	2	--
+"hexagonal"	"hex"	2	--
+"octagonal"	"octa"	2	--
+"pentagonal"	"pen"	2	--
+"rhomboid"	"rho"	2	--
+"starred"	"sta"	2	--
+"trapezoid"	"tra"	2	--
+"zigzag"	"zig"	2	--
 
 handles is a keystruc. klist of handles is table of khandles.
 
@@ -171,42 +171,42 @@ Room 69105b is a room.
 chapter random tables for room 69105b
 
 table of kgrooves
-descrip	weight	gyet
-"double"	1	False
-"single"	2	--
+descrip	abbrev	weight	gyet
+"double"	"dou"	1	False
+"single"	"sin"	2	--
 
 grooves is a keystruc. klist of grooves is table of kgrooves. grooves is broom.
 
 table of ktextures
-descrip	weight	gyet
-"bumpy"	1	False
-"rough"	2	--
-"smooth"	2	--
+descrip	abbrev	weight	gyet
+"bumpy"	"bum"	1	False
+"rough"	"rou"	2	--
+"smooth"	"smo"	2	--
 
 textures is a keystruc. klist of textures is table of ktextures. textures is broom.
 
 table of kfonts
-descrip	weight	gyet
-"Arial"	1	False
-"Calibri"	3	--
-"Cambria"	5	--
-"Helvetica"	8	--
+descrip	abbrev	weight	gyet
+"Arial"	"ari"	1	False
+"Calibri"	"cal"	3	--
+"Cambria"	"cam"	5	--
+"Helvetica"	"hel"	8	--
 
 fonts is a keystruc. klist of fonts is table of kfonts. fonts is broom.
 
 table of kpatterns
-descrip	weight	gyet
-"argyle"	1	False
-"camo"	9	--
-"dotted"	13	--
-"floral"	17	--
-"gingham"	21	--
-"herringbone"	25	--
-"houndstooth"	29	--
-"paisley"	33	--
-"pinstripe"	37	--
-"tartan"	41	--
-"tattersall"	45	--
+descrip	abbrev	weight	gyet
+"argyle"	"arg"	1	False
+"camo"	"cam"	9	--
+"dotted"	"dot"	13	--
+"floral"	"flo"	17	--
+"gingham"	"gin"	21	--
+"herringbone"	"her"	25	--
+"houndstooth"	"hou"	29	--
+"paisley"	"pai"	33	--
+"pinstripe"	"pin"	37	--
+"tartan"	"atar"	41	--
+"tattersall"	"tat"	45	--
 
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
 
@@ -223,7 +223,7 @@ to mult-keys (KS - a keystruc):
 	let guesses-in-table be 0;
 	repeat through myk:
 		increment cur-row;
-		if the player's command matches the regular expression "\b[descrip entry]\b", case insensitively:
+		if the player's command matches the regular expression "\b[descrip entry]\b", case insensitively or the player's command matches the regular expression "\b[abbrev entry]\b", case insensitively:
 			increment guesses-in-table;
 			now gyet entry is true;
 			if debug-state is true, say "(Debug) Got [guesses-in-table] match for [descrip entry].";
