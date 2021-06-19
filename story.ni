@@ -240,24 +240,36 @@ to mult-keys (KS - a keystruc):
 				now guessed-any is true;
 				if cur-row is not badnum of KS:
 					now all-bad-so-far is false;
-			one-thou weight entry;
+			overflow-mult weight entry;
 	if got-this-time is false:
-		one-thou tt;
+		overflow-mult tt;
 
 to say keynum:
+	let thousands be hundreds divided by 10;
+	let lastthree be ones + (100 * (the remainder after dividing hundreds by 10));
 	say "[if thousands > 0][thousands],[end if]";
-	if thousands > 0:
-		say "[if ones < 100]0[end if][if ones < 10]0[end if]";
-	say "[ones]";
+	if hundreds > 0:
+		say "[if lastthree < 100]0[end if][if lastthree < 10]0[end if]";
+	say "[lastthree]";
 
-to one-thou (x - a number):
-	if debug-state is true, say "(DEBUG) Multiplying by [x].";
-	now ones is ones * x;
-	now thousands is thousands * x;
-	increase thousands by (ones / 1000);
-	now ones is the remainder after dividing ones by 1000;
+to overflow-mult (x - a number):
+	let x-ones be the remainder after dividing x by 100;
+	let x-hundreds be x divided by 100;
+	let new-ones be x-ones * ones;
+	let new-hundreds be x-hundreds * hundreds * 100;
+	[say "multiplying [hundreds][if ones < 10]0[end if][ones] by overflow [x].";]
+	[say "[hundreds]/[ones] * [x-hundreds]/[x-ones].";]
+	increase new-hundreds by ones * x-hundreds;
+	increase new-hundreds by hundreds * x-ones;
+	now hundreds is new-hundreds;
+	now ones is new-ones;
+	if ones >= 100:
+		increase hundreds by ones / 100;
+		now ones is the remainder after dividing ones by 100;
+	if debug-state is true and show-mult is true:
+		say "(DEBUG) Multiplying by [x]. [hundreds], [ones]. Now at [keynum].";
 
-ones is a number that varies. thousands is a number that varies. [ohai zmachine limitations]
+ones is a number that varies. hundreds is a number that varies. [ohai zmachine limitations]
 
 definition: a keystruc (called myks) is relevant:
 	if player is in 69105a and myks is aroom, decide yes;
@@ -271,7 +283,7 @@ bad-keys-this-time is a truth state that varies.
 after reading a command:
 	if player is in room 50196, continue the action;
 	now ones is 1;
-	now thousands is 0;
+	now hundreds is 0;
 	now all-bad-so-far is true;
 	if word number 1 in the player's command is "x" or word number 1 in the player's command is "take" or word number 1 in the player's command is "get":
 		now guessed-any is false;
@@ -283,17 +295,20 @@ after reading a command:
 			reject the player's command;
 		if all-bad-so-far is true and player is in 69105a:
 			increase ones by 36;
-			if ones > 1000:
-				increment thousands;
-				now ones is ones - 1000;
+			if ones > 100:
+				increment hundreds;
+				now ones is ones - 100;
 			if ones is 68 and bad-keys-this-time is false:
 				now bad-keys-this-time is true;
-				say "You found the random 'worst' set of keys available! This is sort of a hidden easter egg.";
+				say "You found the random 'worst' set of keys available! Congratulations! Whether you found them by accident or on purpose, this is sort of a hidden easter egg.";
 				increment bad-keys-found;
 		if guessed-any is false, continue the action;
 		increment cur-guesses;
-		if thousands < 69:
-			if thousands > 0 or ones > 1:
+		if hundreds < 0:
+			say "Oops. Overflow error. This is bad. But it is probably rectified by more detailed guesses.";
+			reject the player's command;
+		if hundreds < 700:
+			if hundreds > 0 or ones > 1:
 				say "You see [keynum] such keys that fit the description. To see all adjectives, just type X.";
 				reject the player's command;
 			say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
