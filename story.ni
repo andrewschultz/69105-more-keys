@@ -4,15 +4,15 @@ volume initialization and variables
 
 the story headline is "A Riff on David Welbourn's original game".
 
-the story description is "For New Year Comp 2019".
+the story description is "For Spring Thing 2019".
 
-the release number is 1.
+the release number is 2.
 
 Release along with an interpreter.
 
 Release along with a website.
 
-include Trivial Niceties Z-Only by Andrew Schultz.
+include Trivial Niceties by Andrew Schultz.
 
 include Basic Screen Effects by Emily Short.
 
