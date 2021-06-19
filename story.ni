@@ -8,6 +8,10 @@ the story description is "For New Year Comp 2019".
 
 the release number is 1.
 
+Release along with an interpreter.
+
+Release along with a website.
+
 include Trivial Niceties Z-Only by Andrew Schultz.
 
 include Basic Screen Effects by Emily Short.
@@ -85,6 +89,7 @@ to say key-desc:
 			increment cur-row;
 			say "[if gyet entry is true][bold type][end if][descrip entry][roman type]";
 		say ".[no line break]";
+	say "[paragraph break]But which combination of the [number of relevant keystrucs in words] attributes will give you the unique key that will open the door?[no line break]";
 	the rule succeeds;
 
 bold-hint-yet is a truth state that varies.
@@ -211,7 +216,7 @@ to mult-keys (KS - a keystruc):
 	let myk be klist of ks;
 	let tt be totwt of ks;
 	let j be the number of rows in myk;
-	say "(DEBUG) Looking at [KS].";
+	if debug-state is true, say "(DEBUG) Looking at [KS].";
 	now j is (2 * j) - 3;
 	let cur-row be 0;
 	let got-this-time be false;
@@ -305,13 +310,15 @@ to send-them-back:
 			say "You have a new best: [cur-guesses] guesses, beating out [min-best of LP].";
 			now min-best of LP is cur-guesses;
 		else:
-			say "Congratulations on figuring things out for [LP] for the first time.";
+			say "A disembodied voice chirps 'Congratulations on figuring things out for [LP] for the first time!'";
 			now min-best of LP is cur-guesses;
 	if cur-guesses > 15, now cur-guesses is 15;
 	increment entry cur-guesses of room-freq of LP;
 	random-reset;
 
 when play begins:
+	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on the Towers of Hanoi. But you did, with just seven towers. The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
+	if debug-state is false, wait for any key;
 	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-guesses > 15]15+[else][gessiz][end if]";
 	random-reset;
 
@@ -429,7 +436,7 @@ book requesting the score
 
 check requesting the score:
 	if player is in Room 50196:
-		say "You need to move northwest or northeast to try one of the rooms.";
+		say "There's not much to do here. You will want to go northwest or northeast for a[if 69105a is visited or 69105b is visited]nother[end if] challenge.";
 	else:
 		say "You have made [gessiz] in [location of player]. In other words, you've examined [cur-guesses] specific group[plur of cur-guesses] of keys this time in the room.";
 	show-wins 69105a;
@@ -460,6 +467,9 @@ to show-wins (rm - a room):
 
 volume beta testing - not for release
 
+when play begins:
+	say "BETA TESTING NOTE: the command SOLVE gives you the solution if you want to undo things.";
+
 chapter solveing
 
 solveing is an action applying to nothing.
@@ -471,7 +481,7 @@ understand "solve" as solveing.
 carry out solveing:
 	if player is in room 50196, say "You can't solve the entry room." instead;
 	if cur-guesses is 0:
-		say "Adjusting current number of move guesses to 1.";
+		say "Adjusting current number of move guesses from 0 to 1.";
 		now cur-guesses is 1;
 	say "Solution:";
 	repeat with KS running through relevant keystrucs:
