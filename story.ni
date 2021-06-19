@@ -210,6 +210,11 @@ descrip	abbrev	weight	gyet
 
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
 
+table of ambiguities
+abbrev	loc	abbrev-expand
+"oct"	69105a	"octa(gonal) or octo(pus)"
+"sho"	69105a	"shor(t) or shou(ty)"
+
 volume main part
 
 to mult-keys (KS - a keystruc):
@@ -288,6 +293,11 @@ after reading a command:
 	if word number 1 in the player's command is "x" or word number 1 in the player's command is "take" or word number 1 in the player's command is "get":
 		now guessed-any is false;
 		now contradictory-guess is false;
+		repeat through table of ambiguities:
+			if location of player is not loc entry, continue the action;
+			if the player's command matches the regular expression "\b[abbrev entry]\b":
+				say "NOTE: you gave the ambiguous entry [abbrev entry] as one of the words. Until I get smarter with disambiguation, it needs to be clarified to [abbrev-expand entry]."; [??smart ambiguities]
+				reject the player's command;
 		repeat with KS running through relevant keystrucs:
 			mult-keys KS;
 		if contradictory-guess is true:
