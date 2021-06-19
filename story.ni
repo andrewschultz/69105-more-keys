@@ -18,6 +18,8 @@ include Basic Screen Effects by Emily Short.
 
 description of the player is "[if player is in room 50196]As ready for logic puzzles as ever[else]You look great! But you'd look even greater with the right key to open the door[end if]."
 
+does the player mean doing something with the player: it is likely.
+
 debug-state is a truth state that varies.
 
 a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom.
@@ -296,7 +298,7 @@ after reading a command:
 		repeat through table of ambiguities:
 			if location of player is not loc entry, continue the action;
 			if the player's command matches the regular expression "\b[abbrev entry]\b":
-				say "NOTE: you gave the ambiguous entry [abbrev entry] as one of the words. Until I get smarter with disambiguation, it needs to be clarified to [abbrev-expand entry]."; [??smart ambiguities]
+				say "NOTE: you gave the ambiguous entry [abbrev entry] as one of the words. Until I get smarter with disambiguation, it needs to be clarified to [abbrev-expand entry]."; [??smart ambiguities]	
 				reject the player's command;
 		repeat with KS running through relevant keystrucs:
 			mult-keys KS;
@@ -342,7 +344,7 @@ to send-them-back:
 	random-reset;
 
 when play begins:
-	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on the Towers of Hanoi. But you did, with just seven towers. The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
+	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on the Towers of Hanoi. There were ten others.[paragraph break]But you did, with just seven towers. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
 	if debug-state is false, wait for any key;
 	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-guesses > 15]15+[else][gessiz][end if]";
 	random-reset;
@@ -415,6 +417,7 @@ carry out abouting:
 	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
 	say "[line break]Also, you may find it is tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. You can also abbreviate the adjectives to three letters. Only two pairs are ambiguous."; [?? smart ambiguity]
+	say "Source for this game should now be at http://github.com/andrewschultz/69105more."
 	the rule succeeds;
 
 chapter creditsing
@@ -438,7 +441,7 @@ understand the command "verbs" as something new.
 understand "verbs" as verbsing.
 
 carry out verbsing:
-	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK. So perhaps this command should have been called ADJECTIVES.";
+	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK. And you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So perhaps this command should have been called ADJECTIVES.";
 	the rule succeeds.
 
 volume parser errors
