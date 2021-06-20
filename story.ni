@@ -8,6 +8,8 @@ the story description is "For Spring Thing 2019".
 
 the release number is 2.
 
+use MAX_EXPRESSION_NODES of 384.
+
 Release along with an interpreter.
 
 Release along with a website.
@@ -21,6 +23,8 @@ description of the player is "[if player is in room 50196]As ready for logic puz
 does the player mean doing something with the player: it is likely.
 
 debug-state is a truth state that varies.
+
+show-mult is a truth state that varies.
 
 a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom. a keystruc has a truth state called this-turn.
 
@@ -219,22 +223,19 @@ abbrev	loc	abbrev-expand	revisit	t1	t2
 
 volume main part
 
-to mult-keys (KS - a keystruc):
+to mult-keys (KS - a keystruc) and (T - indexed text):
 	let myk be klist of ks;
-	let tt be totwt of ks;
-	let j be the number of rows in myk;
-	if debug-state is true, say "(DEBUG) Looking at [KS].";
-	now j is (2 * j) - 3;
+	if debug-state is true, say "(DEBUG) Looking at [KS] and [T].";
 	let cur-row be 0;
 	let got-this-time be false;
 	let guesses-in-table be 0;
 	repeat through myk:
 		increment cur-row;
 		if disambiguating is false:
-			unless the player's command matches the regular expression "\b[descrip entry]\b", case insensitively or the player's command matches the regular expression "\b[abbrev entry]\b", case insensitively:
+			unless "[descrip entry]" matches the regular expression "\b[T]", case insensitively and T matches the regular expression "\b[abbrev entry]", case insensitively:
 				next;
-		if disambiguating is true:
-			unless there is a disamb entry and the player's command matches the regular expression "\b[disamb entry]\b", case insensitively:
+		else:
+			unless there is a disamb entry and T is "[disamb entry]":
 				next;
 		increment guesses-in-table;
 		now gyet entry is true;
@@ -255,8 +256,6 @@ to mult-keys (KS - a keystruc):
 			if cur-row is not badnum of KS:
 				now all-bad-so-far is false;
 		overflow-mult weight entry;
-	if got-this-time is false:
-		overflow-mult tt;
 
 to say keynum:
 	let thousands be hundreds divided by 10;
@@ -297,66 +296,85 @@ bad-keys-this-time is a truth state that varies.
 disambiguating is a truth state that varies.
 
 full-description is indexed text that varies.
+useless-words is indexed text that varies.
 
-after reading a command:
+after reading a command (this is the detect adjectives rule):
+	let this-useful be false;
 	now full-description is "";
+	now useless-words is "";
 	if player is in room 50196, continue the action;
 	now ones is 1;
 	now hundreds is 0;
 	now all-bad-so-far is true;
-	if word number 1 in the player's command is "x" or word number 1 in the player's command is "take" or word number 1 in the player's command is "get":
-		now guessed-any is false;
-		now contradictory-guess is false;
+	now guessed-any is false;
+	now contradictory-guess is false;
+	now disambiguating is false; [should already be the case, but I'd rather be sure]
+	repeat with KS running through relevant keystrucs:
+		now this-turn of KS is false;
+	[start the actual code here]
+	repeat with X running from 1 to the number of words in the player's command:
+		now this-useful is false;
+		let Y be word number X in the player's command;
 		repeat through table of ambiguities:
 			now revisit entry is false;
 			if location of player is not loc entry, continue the action;
-			if the player's command matches the regular expression "\b[abbrev entry]\b":
+			if Y is abbrev entry:
+				say "Revisit for disambiguation.";
 				now revisit entry is true;
-		now disambiguating is false; [should already be the case, but I'd rather be sure]
+				now this-useful is true;
 		repeat with KS running through relevant keystrucs:
-			now this-turn of KS is false;
-			mult-keys KS;
-		repeat through table of ambiguities:
-			if revisit entry is true:
-				let pre1 be this-turn of t1 entry;
-				let pre2 be this-turn of t2 entry;
-				if pre1 is true and pre2 is true:
-					say "I wasn't able to resolve the ambiguity [abbrev entry] because both the attributes it referred to were already taken.";
-					reject the player's command;
-				if pre1 is false and pre2 is false:
-					say "I wasn't able to resolve the ambiguity [abbrev entry] because neither of the attributes it referred to were taken yet.";
-					now disambiguating is false;
-					reject the player's command;
-				now disambiguating is true;
-				if pre1 is true:
-					mult-keys t1 entry;
-				if pre2 is true:
-					mult-keys t2 entry;
-				now disambiguating is false;
-		if contradictory-guess is true:
-			say "You have two contradictory descriptions.";
-			reject the player's command;
-		if all-bad-so-far is true and player is in 69105a:
-			increase ones by 36;
-			if ones > 100:
-				increment hundreds;
-				now ones is ones - 100;
-			if ones is 68 and bad-keys-this-time is false:
-				now bad-keys-this-time is true;
-				say "You found the random 'worst' set of keys available! Congratulations! Whether you found them by accident or on purpose, this is sort of a hidden easter egg.";
-				increment bad-keys-found;
-		if guessed-any is false, continue the action;
-		increment cur-guesses;
-		if hundreds < 0:
-			say "Oops. Overflow error. This is bad. But it is probably rectified by more detailed guesses.";
-			reject the player's command;
-		if hundreds < 700:
-			if hundreds > 0 or ones > 1:
-				say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
+			mult-keys KS and Y;
+			if this-turn of KS is true, now this-useful is true;
+		if this-useful is false:
+			if Y is "the" or Y is "and" or Y is "a" or Y is "an" or Y is "x" or Y is "examine" or Y is "get" or Y is "take":
+				next;
+			now useless-words is "[useless-words] [Y]";
+	repeat through table of ambiguities:
+		if revisit entry is true:
+			let pre1 be this-turn of t1 entry;
+			let pre2 be this-turn of t2 entry;
+			if pre1 is true and pre2 is true:
+				say "I wasn't able to resolve the ambiguity [abbrev entry] because both the attributes it referred to were already taken.";
 				reject the player's command;
-			say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
-			send-them-back;
+			if pre1 is false and pre2 is false:
+				say "I wasn't able to resolve the ambiguity [abbrev entry] because neither of the attributes it referred to were taken yet.";
+				now disambiguating is false;
+				reject the player's command;
+			now disambiguating is true;
+			if pre1 is true:
+				next;
+			if pre2 is true:
+				next;
+			now disambiguating is false;
+	repeat with KS running through relevant keystrucs:
+		if this-turn of KS is false:
+			overflow-mult totwt of KS;
+	if contradictory-guess is true:
+		say "You have two contradictory descriptions.";
+		reject the player's command;
+	if all-bad-so-far is true and player is in 69105a:
+		increase ones by 36;
+		if ones > 100:
+			increment hundreds;
+			now ones is ones - 100;
+		if ones is 68 and bad-keys-this-time is false:
+			now bad-keys-this-time is true;
+			say "You found the random 'worst' set of keys available! Congratulations! Whether you found them by accident or on purpose, this is sort of a hidden easter egg.";
+			increment bad-keys-found;
+	if guessed-any is false, continue the action;
+	increment cur-guesses;
+	if hundreds < 0:
+		say "Oops. Overflow error. This is bad. But it is probably rectified by more detailed guesses.";
+		reject the player's command;
+	if hundreds < 700:
+		if useless-words is not "":
+			say "List of words I skipped while parsing:[useless-words].";
+		if hundreds > 0 or ones > 1:
+			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
 			reject the player's command;
+		say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
+		send-them-back;
+		reject the player's command;
 
 to send-them-back:
 	let LP be location of player;
@@ -460,7 +478,7 @@ understand the command "credits" as something new.
 understand "credits" as creditsing.
 
 carry out creditsing:
-	say "Thanks to (list of testers here). Thanks to Aaron Reed for hosting Spring Thing 2019 as well as previous iterations. Thanks to you for playing.";
+	say "Thanks to Stian for printing a bug report to intfiction.com. Thanks to Aaron Reed for hosting Spring Thing 2019 as well as previous iterations. Thanks to you for playing.";
 	the rule succeeds.
 
 chapter verbsing
@@ -579,8 +597,6 @@ when play begins:
 	now debug-state is true;
 
 chapter multing
-
-show-mult is a truth state that varies.
 
 multing is an action out of world.
 
