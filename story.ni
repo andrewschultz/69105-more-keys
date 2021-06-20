@@ -486,11 +486,15 @@ chapter verbsing
 verbsing is an action applying to nothing.
 
 understand the command "verbs" as something new.
+understand the command "verb" as something new.
+understand the command "v" as something new.
 
 understand "verbs" as verbsing.
+understand "verb" as verbsing.
+understand "ve" as verbsing.
 
 carry out verbsing:
-	say "SCORE gives the score. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK. And you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So perhaps this command should have been called ADJECTIVES.";
+	say "SCORE gives the score which, here, is a summary of the guesses you've needed each time in each room. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK. And you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So perhaps this command should have been called ADJECTIVES.";
 	the rule succeeds.
 
 volume parser errors
@@ -548,9 +552,9 @@ to say score-desc of (rm - a room):
 
 to show-wins (rm - a room):
 	if wins of rm is 0:
-		say "You don't have any wins [if player is in rm]here[else]in [rm][end if] yet.";
+		say "You don't have any wins [if player is in rm]here [end if]in [rm] yet.";
 	else:
-		say "You have [wins of rm] win[plur of wins of rm] in [score-desc of rm], with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort.";
+		say "You have [wins of rm] win[plur of wins of rm] [if player is in rm]here [end if]in [score-desc of rm], with [moves of rm] total move[plur of moves of rm], where [min-best of rm] is your best effort.";
 		say "Here is a list of frequencies for turns taken to solve [rm]: ";
 		let rmf be room-freq of rm;
 		let space-yet be false;
