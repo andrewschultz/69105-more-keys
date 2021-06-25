@@ -211,7 +211,7 @@ descrip	abbrev	weight	gyet
 "houndstooth"	"hou"	29	--
 "paisley"	"pai"	33	--
 "pinstripe"	"pin"	37	--
-"tartan"	"atar"	41	--
+"tartan"	"tar"	41	--
 "tattersall"	"tat"	45	--
 
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
@@ -312,14 +312,15 @@ after reading a command (this is the detect adjectives rule):
 	repeat with KS running through relevant keystrucs:
 		now this-turn of KS is false;
 	[start the actual code here]
+	repeat through table of ambiguities:
+		now revisit entry is false;
 	repeat with X running from 1 to the number of words in the player's command:
 		now this-useful is false;
 		let Y be word number X in the player's command;
 		repeat through table of ambiguities:
-			now revisit entry is false;
 			if location of player is not loc entry, continue the action;
 			if Y is abbrev entry:
-				say "Revisit for disambiguation.";
+				if debug-state is true, say "(DEBUG) Revisit for disambiguation.";
 				now revisit entry is true;
 				now this-useful is true;
 		repeat with KS running through relevant keystrucs:
@@ -333,18 +334,15 @@ after reading a command (this is the detect adjectives rule):
 		if revisit entry is true:
 			let pre1 be this-turn of t1 entry;
 			let pre2 be this-turn of t2 entry;
-			if pre1 is true and pre2 is true:
-				say "I wasn't able to resolve the ambiguity [abbrev entry] because both the attributes it referred to were already taken.";
-				reject the player's command;
-			if pre1 is false and pre2 is false:
-				say "I wasn't able to resolve the ambiguity [abbrev entry] because neither of the attributes it referred to were taken yet.";
-				now disambiguating is false;
+			if pre1 is pre2:
+				say "I wasn't able to resolve the ambiguity of [b][abbrev entry][r] to [abbrev-expand entry] because [t1 entry] and [t2 entry] were both [if pre1 is true]already taken[else]unassigned[end if].";
 				reject the player's command;
 			now disambiguating is true;
 			if pre1 is true:
-				next;
-			if pre2 is true:
-				next;
+				mult-keys t2 entry and abbrev entry;
+			else:
+				mult-keys t1 entry and abbrev entry;
+			now this-useful is true;
 			now disambiguating is false;
 	repeat with KS running through relevant keystrucs:
 		if this-turn of KS is false:
