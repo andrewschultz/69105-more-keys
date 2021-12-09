@@ -18,7 +18,9 @@ include Trivial Niceties by Andrew Schultz.
 
 include Basic Screen Effects by Emily Short.
 
-description of the player is "[if player is in room 50196]As ready for logic puzzles as ever[else]You look great! But you'd look even greater with the right key to open the door[end if]."
+description of the player is "[if player is in room 50196]As ready for logic puzzles as ever[else]There are no mirrors, but you suspect you look slightly disappointed you haven't found the right key to open the door to get out. Yet[end if]."
+
+does the player mean examining the player when location of player is not room 50196: it is unlikely.
 
 does the player mean doing something with the player: it is likely.
 
@@ -45,7 +47,7 @@ To set the/-- pronoun it to (O - an object): (- LanguagePronouns-->3 = {O}; -).
 
 book room 50196
 
-Room 50196 is a room. "You are in room 50196. Scratched below you see 69105A and an arrow pointing northeast and 69105B and an arrow pointing northwest."
+Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching northeast and northwest.  Text ahead of the arrows indicate [b]69105A[r] is northeast and [b]69105B[r] is northwest."
 
 check going nowhere in Room 50196: say "There are really only two ways to go: northeast and northwest." instead;
 
@@ -65,7 +67,7 @@ check going northwest in Room 50196:
 	key-move 69105b instead;
 
 after looking in room 50196 for the first time:
-	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, Type ABOUT to see general advice, or VERBS to see what sort of verbs to use.[close bracket][paragraph break]";
+	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r] to see general advice, or [b]VERBS[r] to see what sort of verbs to use.[close bracket][paragraph break]";
 
 book room 69105a
 
@@ -174,7 +176,7 @@ Room 69105b is a room.
 
 [room b works as follows: there are actually 69105 keys. But they are broken down and weighted so that you have 3*5*17*271 total keys. You can see by the sum of the weights what goes where. There's some ambiguity with the 1/2 and 1/5/9/45, but other than that, you can guess what is going on pretty quickly. I think.]
 
-chapter random tables for room 69105b
+chapter randomized tables for room 69105b
 
 table of kgrooves
 descrip	abbrev	weight	gyet
@@ -318,7 +320,7 @@ after reading a command (this is the detect adjectives rule):
 		now this-useful is false;
 		let Y be word number X in the player's command;
 		repeat through table of ambiguities:
-			if location of player is not loc entry, continue the action;
+			if location of player is not loc entry, next;
 			if Y is abbrev entry:
 				if debug-state is true, say "(DEBUG) Revisit for disambiguation.";
 				now revisit entry is true;
