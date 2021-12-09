@@ -28,7 +28,7 @@ debug-state is a truth state that varies.
 
 show-mult is a truth state that varies.
 
-a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom or broom. a keystruc is usually aroom. a keystruc has a truth state called this-turn.
+a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom, broom, bcroom or croom. a keystruc is usually aroom. a keystruc has a truth state called this-turn.
 
 to decide which number is totwt of (k - a keystruc):
 	let temp be 0;
@@ -65,6 +65,14 @@ to key-move (r - a room):
 check going northwest in Room 50196:
 	say "You hear a whirring behind you as the passage back closes.";
 	key-move 69105b instead;
+
+to decide whether room-c-available:
+	if wins of 69105b > 0 and wins of 69105a > 0, yes;
+	no;
+
+check going north in Room 50196 when room-c-available:
+	say "You hear a whirring behind you as the passage back closes.";
+	key-move 69105c instead;
 
 after looking in room 50196 for the first time:
 	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r] to see general advice, or [b]VERBS[r] to see what sort of verbs to use.[close bracket][paragraph break]";
@@ -183,7 +191,7 @@ descrip	abbrev	weight	gyet
 "double"	"dou"	1	False
 "single"	"sin"	2	--
 
-grooves is a keystruc. klist of grooves is table of kgrooves. grooves is broom.
+grooves is a keystruc. klist of grooves is table of kgrooves. grooves is bcroom.
 
 table of ktextures
 descrip	abbrev	weight	gyet
@@ -191,7 +199,7 @@ descrip	abbrev	weight	gyet
 "rough"	"rou"	2	--
 "smooth"	"smo"	2	--
 
-textures is a keystruc. klist of textures is table of ktextures. textures is broom.
+textures is a keystruc. klist of textures is table of ktextures. textures is bcroom.
 
 table of kfonts
 descrip	abbrev	weight	gyet
@@ -200,7 +208,7 @@ descrip	abbrev	weight	gyet
 "Cambria"	"cam"	5	--
 "Helvetica"	"hel"	8	--
 
-fonts is a keystruc. klist of fonts is table of kfonts. fonts is broom.
+fonts is a keystruc. klist of fonts is table of kfonts. fonts is bcroom.
 
 table of kpatterns
 descrip	abbrev	weight	gyet
@@ -218,10 +226,29 @@ descrip	abbrev	weight	gyet
 
 patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
 
+book 69105c
+
+Room 69105c is a room.
+
+[room c works as follows: just like room b, only you have 5 weights instead of 11 for the final choice, so you can 1) win quicker and 2) determine which key is right, right away, due to the prime factors.]
+
+table of kshafts
+descrip	abbrev	weight	gyet
+"conical"	"con"	78	--
+"cylindrical"	"cyl"	1	False
+"helical"	"hel"	57	--
+"prismatic"	"pri"	64	--
+"spheroidal"	"sph"	71	--
+
+shafts is a keystruc. klist of shafts is table of kshafts. shafts is croom.
+
+book ambiguities
+
 table of ambiguities
 abbrev	loc	abbrev-expand	revisit	t1	t2
 "oct"	69105a	"octa(gonal) or octo(pus)"	false	brands	handles
 "sho"	69105a	"shor(t) or shou(ty)"	false	faces	lengths
+"hel"	69105c	"hel(vetica) or hel(ical)"	false	fonts	shafts
 
 volume main part
 
@@ -287,8 +314,14 @@ to overflow-mult (x - a number):
 ones is a number that varies. hundreds is a number that varies. [ohai zmachine limitations]
 
 definition: a keystruc (called myks) is relevant:
-	if player is in 69105a and myks is aroom, decide yes;
-	if player is in 69105b and myks is broom, decide yes;
+	if player is in 69105a:
+		if myks is aroom, decide yes;
+	else if myks is bcroom:
+		decide yes;
+	else if player is in 69105b and myks is broom:
+		decide yes;
+	else if player is in 69105c and myks is croom:
+		decide yes;
 	decide no;
 
 cur-guesses is a number that varies.
@@ -391,6 +424,8 @@ to send-them-back:
 	if cur-guesses > 15, now cur-guesses is 15;
 	increment entry cur-guesses of room-freq of LP;
 	random-reset;
+	if wins of LP is 1 and room-c-available:
+		say "[line break]You hear a grinding.  A third room opens up to the north: 69105c! It doesn't seem that much different from room b, but you may want to give it a try."
 
 when play begins:
 	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on the Towers of Hanoi. There were ten others.[paragraph break]But you did, with just seven towers. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
@@ -400,7 +435,7 @@ when play begins:
 
 to random-reset:
 	reshuffle-a;
-	reshuffle-b;
+	reshuffle-bc;
 	now cur-guesses is 0;
 
 to table-num-shuf (thistab - a table name):
@@ -433,8 +468,8 @@ to reshuffle-a:
 			now Q is Q2;
 		now badnum of X is Q;
 
-to reshuffle-b:
-	repeat with X running through broom keystrucs:
+to reshuffle-bc:
+	repeat with X running through not aroom keystrucs:
 		table-num-shuf klist of X;
 		repeat through klist of X:
 			now gyet entry is false;

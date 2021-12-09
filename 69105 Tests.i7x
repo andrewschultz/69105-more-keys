@@ -1,6 +1,6 @@
 Version 1/181229 of 69105 Tests by Andrew Schultz begins here.
 
-"This should briefly describe the purpose of 69105 Tests."
+"Tests for 69105 More Keys--mostly spoilery stuff"
 
 volume tests - not for release
 
@@ -14,7 +14,7 @@ understand "shuffle" as shuffleing.
 
 carry out shuffleing:
 	reshuffle-a;
-	reshuffle-b;
+	reshuffle-bc;
 	the rule succeeds;
 
 chapter cheating
