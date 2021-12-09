@@ -47,9 +47,9 @@ To set the/-- pronoun it to (O - an object): (- LanguagePronouns-->3 = {O}; -).
 
 book room 50196
 
-Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching northeast and northwest.  Text ahead of the arrows indicate [b]69105A[r] is northeast and [b]69105B[r] is northwest."
+Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if]."
 
-check going nowhere in Room 50196: say "There are really only two ways to go: northeast and northwest." instead;
+check going nowhere in Room 50196: say "There are really only [if room-c-available]three[else]two[end if] ways to go: [if room-c-available]north, [end if]northeast and northwest." instead;
 
 check going nowhere: say "You aren't going anywhere until you find the right key." instead;
 
@@ -75,7 +75,7 @@ check going north in Room 50196 when room-c-available:
 	key-move 69105c instead;
 
 after looking in room 50196 for the first time:
-	say "[bracket]First and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r] to see general advice, or [b]VERBS[r] to see what sort of verbs to use.[close bracket][paragraph break]";
+	say "[italics][bracket]First, and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r][i] to see general advice, or [b]VERBS[r][i] to see what sort of verbs to use.[close bracket][r][paragraph break]";
 
 book room 69105a
 
