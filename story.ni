@@ -211,12 +211,28 @@ textures is a keystruc. klist of textures is table of ktextures. textures is bcr
 
 table of kfonts
 descrip	abbrev	weight	gyet
-"Arial"	"ari"	1	False
-"Calibri"	"cal"	3	--
-"Cambria"	"cam"	5	--
-"Tahoma"	"tah"	8	--
+"arial"	"ari"	1	False
+"calibri"	"cal"	3	--
+"cambria"	"cam"	5	--
+"tahoma"	"tah"	8	--
 
 fonts is a keystruc. klist of fonts is table of kfonts. fonts is bcroom.
+
+table of kshafts
+descrip	abbrev	weight	gyet
+"conical"	"con"	1	False
+"cylindrical"	"cyl"	57	--
+"helical"	"hel"	64	--
+"prismatic"	"pri"	71	--
+"spheroidal"	"sph"	78	--
+
+shafts is a keystruc. klist of shafts is table of kshafts. shafts is broom.
+
+book 69105c
+
+Room 69105c is a room.
+
+[room c works as follows: just like room b, only you have 5 weights instead of 11 for the final choice, so you can 1) win quicker and 2) determine which key is right, right away, due to the prime factors.]
 
 table of kpatterns
 descrip	abbrev	weight	gyet
@@ -232,23 +248,7 @@ descrip	abbrev	weight	gyet
 "tartan"	"tar"	41	--
 "tattersall"	"tat"	45	--
 
-patterns is a keystruc. klist of patterns is table of kpatterns. patterns is broom.
-
-book 69105c
-
-Room 69105c is a room.
-
-[room c works as follows: just like room b, only you have 5 weights instead of 11 for the final choice, so you can 1) win quicker and 2) determine which key is right, right away, due to the prime factors.]
-
-table of kshafts
-descrip	abbrev	weight	gyet
-"conical"	"con"	1	False
-"cylindrical"	"cyl"	57	--
-"helical"	"hel"	64	--
-"prismatic"	"pri"	71	--
-"spheroidal"	"sph"	78	--
-
-shafts is a keystruc. klist of shafts is table of kshafts. shafts is croom.
+patterns is a keystruc. klist of patterns is table of kpatterns. patterns is croom.
 
 book ambiguities
 
@@ -267,7 +267,7 @@ to mult-keys (KS - a keystruc) and (T - indexed text):
 	let guesses-in-table be 0;
 	repeat through myk:
 		increment cur-row;
-		if disambiguating is false:
+		if disambiguating is false: [e.g. DOU DOUB DOUBL DOUBLE]
 			unless "[descrip entry]" matches the regular expression "\b[T]", case insensitively and T matches the regular expression "\b[abbrev entry]", case insensitively:
 				next;
 		else:
