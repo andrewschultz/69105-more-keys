@@ -1,0 +1,378 @@
+# reg-69-guesses.txt
+
+** game: /home/andrew/prt/debug-69105-more-keys.z8
+** interpreter: /home/andrew/prt/dfrotz
+
+* main-thru
+
+>n
+There are really only two ways to go: northeast and northwest.
+
+>s
+There are really only two ways to go: northeast and northwest.
+
+>ne
+
+>nar
+keys. To see all adjectives, just type X.
+
+>narr
+keys. To see all adjectives, just type X.
+
+>narro
+keys. To see all adjectives, just type X.
+
+>thi
+keys. To see all adjectives, just type X.
+
+>thic
+keys. To see all adjectives, just type X.
+
+>hug
+keys. To see all adjectives, just type X.
+
+>lon
+keys. To see all adjectives, just type X.
+
+>med
+keys. To see all adjectives, just type X.
+
+>medi
+keys. To see all adjectives, just type X.
+
+>mediu
+keys. To see all adjectives, just type X.
+
+>sho
+I wasn't able to resolve the ambiguity of sho to shor(t) or shou(ty) because faces and lengths were both unassigned.
+
+>sho shouty
+/(shouty short|short shouty) keys. To see all adjectives, just type X.
+
+>sho short
+/(shouty short|short shouty) keys. To see all adjectives, just type X.
+
+>sho shox
+I wasn't able to resolve the ambiguity of sho to shor(t) or shou(ty) because faces and lengths were both unassigned.
+
+>shor
+keys. To see all adjectives, just type X.
+
+>dra
+keys. To see all adjectives, just type X.
+
+>drag
+keys. To see all adjectives, just type X.
+
+>drago
+keys. To see all adjectives, just type X.
+
+>eag
+keys. To see all adjectives, just type X.
+
+>eagl
+keys. To see all adjectives, just type X.
+
+>fal
+keys. To see all adjectives, just type X.
+
+>falc
+keys. To see all adjectives, just type X.
+
+>falco
+keys. To see all adjectives, just type X.
+
+>oct
+I wasn't able to resolve the ambiguity of oct to octa(gonal) or octo(pus) because brands and handles were both unassigned.
+
+>oct octagonal
+/(octopus octagonal|octagonal octopus) keys. To see all adjectives, just type X.
+
+>oct octopus
+/(octopus octagonal|octagonal octopus) keys. To see all adjectives, just type X.
+
+>octo
+keys. To see all adjectives, just type X.
+
+>octop
+keys. To see all adjectives, just type X.
+
+>octopu
+keys. To see all adjectives, just type X.
+
+>swo
+keys. To see all adjectives, just type X.
+
+>swor
+keys. To see all adjectives, just type X.
+
+>sword
+keys. To see all adjectives, just type X.
+
+>swordf
+keys. To see all adjectives, just type X.
+
+>swordfi
+keys. To see all adjectives, just type X.
+
+>swordfis
+keys. To see all adjectives, just type X.
+
+>tro
+keys. To see all adjectives, just type X.
+
+>trol
+keys. To see all adjectives, just type X.
+
+>ann
+keys. To see all adjectives, just type X.
+
+>anno
+keys. To see all adjectives, just type X.
+
+>annoy
+keys. To see all adjectives, just type X.
+
+>annoye
+keys. To see all adjectives, just type X.
+
+>con
+keys. To see all adjectives, just type X.
+
+>conf
+keys. To see all adjectives, just type X.
+
+>confu
+keys. To see all adjectives, just type X.
+
+>confus
+keys. To see all adjectives, just type X.
+
+>confuse
+keys. To see all adjectives, just type X.
+
+>fro
+keys. To see all adjectives, just type X.
+
+>frow
+keys. To see all adjectives, just type X.
+
+>frown
+keys. To see all adjectives, just type X.
+
+>puc
+keys. To see all adjectives, just type X.
+
+>puck
+keys. To see all adjectives, just type X.
+
+>pucke
+keys. To see all adjectives, just type X.
+
+>pucker
+keys. To see all adjectives, just type X.
+
+>puckere
+keys. To see all adjectives, just type X.
+
+>shou
+keys. To see all adjectives, just type X.
+
+>shout
+keys. To see all adjectives, just type X.
+
+>smi
+keys. To see all adjectives, just type X.
+
+>smil
+keys. To see all adjectives, just type X.
+
+>smile
+keys. To see all adjectives, just type X.
+
+>sne
+keys. To see all adjectives, just type X.
+
+>snee
+keys. To see all adjectives, just type X.
+
+>sneer
+keys. To see all adjectives, just type X.
+
+>arr
+keys. To see all adjectives, just type X.
+
+>arro
+keys. To see all adjectives, just type X.
+
+>arrow
+keys. To see all adjectives, just type X.
+
+>arrowe
+keys. To see all adjectives, just type X.
+
+>bub
+keys. To see all adjectives, just type X.
+
+>bubb
+keys. To see all adjectives, just type X.
+
+>bubbl
+keys. To see all adjectives, just type X.
+
+>cir
+keys. To see all adjectives, just type X.
+
+>circ
+keys. To see all adjectives, just type X.
+
+>circu
+keys. To see all adjectives, just type X.
+
+>circul
+keys. To see all adjectives, just type X.
+
+>circula
+keys. To see all adjectives, just type X.
+
+>clo
+keys. To see all adjectives, just type X.
+
+>clov
+keys. To see all adjectives, just type X.
+
+>clove
+keys. To see all adjectives, just type X.
+
+>clover
+keys. To see all adjectives, just type X.
+
+>hep
+keys. To see all adjectives, just type X.
+
+>hept
+keys. To see all adjectives, just type X.
+
+>hepta
+keys. To see all adjectives, just type X.
+
+>heptag
+keys. To see all adjectives, just type X.
+
+>heptago
+keys. To see all adjectives, just type X.
+
+>heptagon
+keys. To see all adjectives, just type X.
+
+>heptagona
+keys. To see all adjectives, just type X.
+
+>hex
+keys. To see all adjectives, just type X.
+
+>hexa
+keys. To see all adjectives, just type X.
+
+>hexag
+keys. To see all adjectives, just type X.
+
+>hexago
+keys. To see all adjectives, just type X.
+
+>hexagon
+keys. To see all adjectives, just type X.
+
+>hexagona
+keys. To see all adjectives, just type X.
+
+>octa
+keys. To see all adjectives, just type X.
+
+>octag
+keys. To see all adjectives, just type X.
+
+>octago
+keys. To see all adjectives, just type X.
+
+>octagon
+keys. To see all adjectives, just type X.
+
+>octagona
+keys. To see all adjectives, just type X.
+
+>pen
+keys. To see all adjectives, just type X.
+
+>pent
+keys. To see all adjectives, just type X.
+
+>penta
+keys. To see all adjectives, just type X.
+
+>pentag
+keys. To see all adjectives, just type X.
+
+>pentago
+keys. To see all adjectives, just type X.
+
+>pentagon
+keys. To see all adjectives, just type X.
+
+>pentagona
+keys. To see all adjectives, just type X.
+
+>rho
+keys. To see all adjectives, just type X.
+
+>rhom
+keys. To see all adjectives, just type X.
+
+>rhomb
+keys. To see all adjectives, just type X.
+
+>rhombo
+keys. To see all adjectives, just type X.
+
+>rhomboi
+keys. To see all adjectives, just type X.
+
+>sta
+keys. To see all adjectives, just type X.
+
+>star
+keys. To see all adjectives, just type X.
+
+>starr
+keys. To see all adjectives, just type X.
+
+>starre
+keys. To see all adjectives, just type X.
+
+>tra
+keys. To see all adjectives, just type X.
+
+>trap
+keys. To see all adjectives, just type X.
+
+>trape
+keys. To see all adjectives, just type X.
+
+>trapez
+keys. To see all adjectives, just type X.
+
+>trapezo
+keys. To see all adjectives, just type X.
+
+>trapezoi
+keys. To see all adjectives, just type X.
+
+>zig
+keys. To see all adjectives, just type X.
+
+>zigz
+keys. To see all adjectives, just type X.
+
+>zigza
+keys. To see all adjectives, just type X.
+
