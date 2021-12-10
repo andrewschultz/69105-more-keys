@@ -611,7 +611,31 @@ to show-wins (rm - a room):
 volume beta testing - not for release
 
 when play begins:
-	say "BETA TESTING NOTE: the command SOLVE gives you the solution if you want to undo things.";
+	say "Thanks for testing this![paragraph break][i][bracket]BETA TESTING NOTE: the command [b]SOLVE[r][i] gives you the solution if you want to undo things, and the command [b]CHEAT[r][i] tells you what the solution is. This isn't just a straight-up cheat, as it can also give you ideas of odd things to try, if you wish.[close bracket][r]";
+
+chapter cheating
+
+cheating is an action out of world.
+
+understand the command "cheat" as something new.
+
+understand "cheat" as cheating.
+
+carry out cheating:
+	say "Right adjective stream:";
+	repeat with Q running through relevant keystrucs:
+		repeat through klist of Q:
+			if weight entry is 1, say " [descrip entry]";
+	say ".";
+	if player is in room 69105a:
+		say "Extra-bad key combo is";
+		repeat with Q running through relevant keystrucs:
+			let K be klist of Q;
+			let R be badnum of Q;
+			choose row R in K;
+			say " [descrip entry]";
+	say ".";
+	the rule succeeds;
 
 chapter solveing
 
