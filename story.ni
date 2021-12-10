@@ -47,9 +47,13 @@ To set the/-- pronoun it to (O - an object): (- LanguagePronouns-->3 = {O}; -).
 
 book room 50196
 
-Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if]."
+Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if][if can-exit]. [one of]And wait! Another passage has opened! [or][stopping]You can also go south to freedom now, unless you wish to hone your key-guessing skills[end if]."
 
-check going nowhere in Room 50196: say "There are really only [if room-c-available]three[else]two[end if] ways to go: [if room-c-available]north, [end if]northeast and northwest." instead;
+check going south in room 50196 when can-exit:
+	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Of course, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
+	end the story;
+
+check going nowhere in Room 50196: say "There are really only [if can-exit]four[else if room-c-available]three[else]two[end if] ways to go: [if can-exit]south, [end if][if room-c-available]north, [end if]northeast and northwest." instead;
 
 check going nowhere: say "You aren't going anywhere until you find the right key." instead;
 
@@ -70,12 +74,16 @@ to decide whether room-c-available:
 	if wins of 69105b > 0 and wins of 69105a > 0, yes;
 	no;
 
+to decide whether can-exit:
+	if wins of 69105c > 0 and wins of 69105b > 0 and wins of 69105a > 0, yes;
+	no;
+
 check going north in Room 50196 when room-c-available:
 	say "You hear a whirring behind you as the passage back closes.";
 	key-move 69105c instead;
 
 after looking in room 50196 for the first time:
-	say "[italics][bracket]First, and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r][i] to see general advice, or [b]VERBS[r][i] to see what sort of verbs to use.[close bracket][r][paragraph break]";
+	say "[i][bracket]First, and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r][i] to see general advice, or [b]VERBS[r][i] to see what sort of verbs to use.[close bracket][r][paragraph break]";
 
 book room 69105a
 
@@ -424,7 +432,7 @@ to send-them-back:
 	if cur-guesses > 15, now cur-guesses is 15;
 	increment entry cur-guesses of room-freq of LP;
 	random-reset;
-	if wins of LP is 1 and room-c-available:
+	if LP is not room 69105c and wins of LP is 1 and room-c-available:
 		say "[line break]You hear a grinding.  A third room opens up to the north: 69105c! It doesn't seem that much different from room b, but you may want to give it a try."
 
 when play begins:
@@ -541,7 +549,7 @@ rule for printing a parser error:
 	give-help;
 
 to give-help:
-	say "However, there aren't many verbs to use here. You don't need any fancy verbs[if player is not in room 50196], just adjectives, mostly, to get the right key[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else]X (adjectives) KEYS until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four.";
+	say "However, there aren't many verbs to use here. You don't need any fancy verbs[if player is not in room 50196], just adjectives, mostly, to get the right key. [b]VERBS[r] has details on this[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else]X (adjectives) KEYS until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four.";
 
 chapter helping
 
