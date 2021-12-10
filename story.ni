@@ -18,6 +18,20 @@ include Trivial Niceties by Andrew Schultz.
 
 include Basic Screen Effects by Emily Short.
 
+include Conditional Undo by Jesse McGrew.
+
+to decide which number is deadflag:
+	(- deadflag -)
+
+Rule for deciding whether to allow undo:
+	if deadflag is 3:
+		allow undo;
+	if player is in room 50196:
+		say "You have nothing you need to do here, much less undo it.";
+	else:
+		say "Undoing would allow you to artificially deflate your guess count too easily, so I'm disabling it. While you can save and retry, and so forth, that requires more effort than a short game like this needs. (Cue adult from your childhood scolding 'You're only cheating yourself, young man/lady!') Besides, there's nothing special for an extra-quick guess. [this-game] is all about figuring a strategy, then moving on once you're done.";
+	deny undo;
+
 description of the player is "[if player is in room 50196]As ready for logic puzzles as ever[else]There are no mirrors, but you suspect you look slightly disappointed you haven't found the right key to open the door to get out. Yet[end if]."
 
 does the player mean examining the player when location of player is not room 50196: it is unlikely.
