@@ -638,7 +638,8 @@ carry out solveing:
 volume debug - not for release
 
 [below can be commented/uncommented as needed to perform tests.]
-include 69105 Tests by Andrew Schultz.
+
+include 69105 More Keys Tests by Andrew Schultz.
 
 when play begins:
 	now debug-state is true;
