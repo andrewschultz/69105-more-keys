@@ -214,7 +214,7 @@ descrip	abbrev	weight	gyet
 "Arial"	"ari"	1	False
 "Calibri"	"cal"	3	--
 "Cambria"	"cam"	5	--
-"Helvetica"	"hel"	8	--
+"Tahoma"	"tah"	8	--
 
 fonts is a keystruc. klist of fonts is table of kfonts. fonts is bcroom.
 
@@ -242,11 +242,11 @@ Room 69105c is a room.
 
 table of kshafts
 descrip	abbrev	weight	gyet
-"conical"	"con"	78	--
-"cylindrical"	"cyl"	1	False
-"helical"	"hel"	57	--
-"prismatic"	"pri"	64	--
-"spheroidal"	"sph"	71	--
+"conical"	"con"	1	False
+"cylindrical"	"cyl"	57	--
+"helical"	"hel"	64	--
+"prismatic"	"pri"	71	--
+"spheroidal"	"sph"	78	--
 
 shafts is a keystruc. klist of shafts is table of kshafts. shafts is croom.
 
@@ -256,7 +256,6 @@ table of ambiguities
 abbrev	loc	abbrev-expand	revisit	t1	t2
 "oct"	69105a	"octa(gonal) or octo(pus)"	false	brands	handles
 "sho"	69105a	"shor(t) or shou(ty)"	false	faces	lengths
-"hel"	69105c	"hel(vetica) or hel(ical)"	false	fonts	shafts
 
 volume main part
 
