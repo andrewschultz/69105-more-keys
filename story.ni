@@ -47,7 +47,7 @@ To set the/-- pronoun it to (O - an object): (- LanguagePronouns-->3 = {O}; -).
 
 book room 50196
 
-Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if][if can-exit]. [one of]And wait! Another passage has opened! [or][stopping]You can also go south to freedom now, unless you wish to hone your key-guessing skills[end if]."
+Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if][if can-exit][one of][or].[paragraph break]The passage south beckons out, it seems, unless you wish to hone your key-guessing skills[stopping][end if]."
 
 check going south in room 50196 when can-exit:
 	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Of course, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
@@ -84,6 +84,14 @@ check going north in Room 50196 when room-c-available:
 
 after looking in room 50196 for the first time:
 	say "[i][bracket]First, and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r][i] to see general advice, or [b]VERBS[r][i] to see what sort of verbs to use.[close bracket][r][paragraph break]";
+
+chapter winning
+
+check going south in room 50196 when can-exit:
+	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Of course, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
+	end the story;
+
+The print final score rule is not listed in for printing the player's obituary.
 
 book room 69105a
 
@@ -412,9 +420,12 @@ after reading a command (this is the detect adjectives rule):
 		if hundreds > 0 or ones > 1:
 			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
 			reject the player's command;
-		say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
-		send-them-back;
-		reject the player's command;
+		win-the-thing;
+
+to win-the-thing:
+	say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
+	send-them-back;
+	reject the player's command;
 
 to send-them-back:
 	let LP be location of player;
@@ -428,11 +439,13 @@ to send-them-back:
 		else:
 			say "A disembodied voice chirps 'Congratulations on figuring things out for [LP] for the first time!'";
 			now min-best of LP is cur-guesses;
+			if LP is Room 69105c:
+				say "[line break]You hear a grinding, and another passage opens to the south. You see light far away. Maybe it's a way out!";
 	if cur-guesses > 15, now cur-guesses is 15;
 	increment entry cur-guesses of room-freq of LP;
 	random-reset;
 	if LP is not room 69105c and wins of LP is 1 and room-c-available:
-		say "[line break]You hear a grinding.  A third room opens up to the north: 69105c! It doesn't seem that much different from room b, but you may want to give it a try."
+		say "[line break]You hear a grinding.  A third door appears in the north wall. It seems to lead to, unsurprisingly, room 69105c!"
 
 when play begins:
 	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on the Towers of Hanoi. There were ten others.[paragraph break]But you did, with just seven towers. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
@@ -621,6 +634,7 @@ understand the command "cheat" as something new.
 understand "cheat" as cheating.
 
 carry out cheating:
+	if player is in room 50196, say "You don't need to cheat here." instead;
 	say "Right adjective stream:";
 	repeat with Q running through relevant keystrucs:
 		repeat through klist of Q:
@@ -633,7 +647,7 @@ carry out cheating:
 			let R be badnum of Q;
 			choose row R in K;
 			say " [descrip entry]";
-	say ".";
+		say ".";
 	the rule succeeds;
 
 chapter solveing
