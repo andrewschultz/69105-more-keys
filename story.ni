@@ -64,7 +64,7 @@ book room 50196
 Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if][if can-exit][one of][or].[paragraph break]The passage south beckons out, it seems, unless you wish to hone your key-guessing skills[stopping][end if]."
 
 check going south in room 50196 when can-exit:
-	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Of course, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
+	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Oh, by the way, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
 	end the story;
 
 check going nowhere in Room 50196: say "There are really only [if can-exit]four[else if room-c-available]three[else]two[end if] ways to go: [if can-exit]south, [end if][if room-c-available]north, [end if]northeast and northwest." instead;
@@ -97,12 +97,12 @@ check going north in Room 50196 when room-c-available:
 	key-move 69105c instead;
 
 after looking in room 50196 for the first time:
-	say "[i][bracket]First, and most importantly, thanks to David Welbourn for his original game that gave me the idea to make math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r][i] to see general advice, or [b]VERBS[r][i] to see what sort of verbs to use.[close bracket][r][paragraph break]";
+	say "[i][bracket]First, and most importantly, thanks to David Welbourn for his original game that gave me the idea to make a math-wonky variant with ... a bit less backstory. And for his permisssion to make this sequel. Also, type [b]ABOUT[r][i] to see general advice, or [b]VERBS[r][i] to see what sort of verbs to use.[close bracket][r][paragraph break]";
 
 chapter winning
 
 check going south in room 50196 when can-exit:
-	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Of course, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
+	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! The organizers guessed anyone who got sick of Towers of Hanoi might look ofor a bigger challenge. A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Of course, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
 	end the story;
 
 The print final score rule is not listed in for printing the player's obituary.
@@ -456,6 +456,7 @@ to send-them-back:
 			if LP is Room 69105c:
 				say "[line break]You hear a grinding, and another passage opens to the south. You see light far away. Maybe it's a way out!";
 	if cur-guesses > 15, now cur-guesses is 15;
+	if cur-guesses < 1, now cur-guesses is 1;
 	increment entry cur-guesses of room-freq of LP;
 	random-reset;
 	if LP is not room 69105c and wins of LP is 1 and room-c-available:
@@ -563,7 +564,7 @@ understand "verb" as verbsing.
 understand "ve" as verbsing.
 
 carry out verbsing:
-	say "SCORE gives the score which, here, is a summary of the guesses you've needed each time in each room. Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, X PINK KEY will have the same effect as TAKE PINK or even PINK. And you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So perhaps this command should have been called ADJECTIVES.";
+	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always say VERBS.";
 	the rule succeeds.
 
 volume parser errors
