@@ -12,6 +12,7 @@ There are really only two ways to go: northeast and northwest.
 There are really only two ways to go: northeast and northwest.
 
 >ne
+69105a
 
 >nar
 keys. To see all adjectives, just type X.
@@ -22,16 +23,28 @@ keys. To see all adjectives, just type X.
 >narro
 keys. To see all adjectives, just type X.
 
+>narrow
+keys. To see all adjectives, just type X.
+
 >thi
 keys. To see all adjectives, just type X.
 
 >thic
 keys. To see all adjectives, just type X.
 
+>thick
+keys. To see all adjectives, just type X.
+
 >hug
 keys. To see all adjectives, just type X.
 
+>huge
+keys. To see all adjectives, just type X.
+
 >lon
+keys. To see all adjectives, just type X.
+
+>long
 keys. To see all adjectives, just type X.
 
 >med
@@ -41,6 +54,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >mediu
+keys. To see all adjectives, just type X.
+
+>medium
 keys. To see all adjectives, just type X.
 
 >sho
@@ -58,6 +74,9 @@ I wasn't able to resolve the ambiguity of sho to shor(t) or shou(ty) because fac
 >shor
 keys. To see all adjectives, just type X.
 
+>short
+keys. To see all adjectives, just type X.
+
 >dra
 keys. To see all adjectives, just type X.
 
@@ -67,10 +86,16 @@ keys. To see all adjectives, just type X.
 >drago
 keys. To see all adjectives, just type X.
 
+>dragon
+keys. To see all adjectives, just type X.
+
 >eag
 keys. To see all adjectives, just type X.
 
 >eagl
+keys. To see all adjectives, just type X.
+
+>eagle
 keys. To see all adjectives, just type X.
 
 >fal
@@ -80,6 +105,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >falco
+keys. To see all adjectives, just type X.
+
+>falcon
 keys. To see all adjectives, just type X.
 
 >oct
@@ -100,6 +128,9 @@ keys. To see all adjectives, just type X.
 >octopu
 keys. To see all adjectives, just type X.
 
+>octopus
+keys. To see all adjectives, just type X.
+
 >swo
 keys. To see all adjectives, just type X.
 
@@ -118,10 +149,16 @@ keys. To see all adjectives, just type X.
 >swordfis
 keys. To see all adjectives, just type X.
 
+>swordfish
+keys. To see all adjectives, just type X.
+
 >tro
 keys. To see all adjectives, just type X.
 
 >trol
+keys. To see all adjectives, just type X.
+
+>troll
 keys. To see all adjectives, just type X.
 
 >ann
@@ -134,6 +171,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >annoye
+keys. To see all adjectives, just type X.
+
+>annoyed
 keys. To see all adjectives, just type X.
 
 >con
@@ -151,6 +191,9 @@ keys. To see all adjectives, just type X.
 >confuse
 keys. To see all adjectives, just type X.
 
+>confused
+keys. To see all adjectives, just type X.
+
 >fro
 keys. To see all adjectives, just type X.
 
@@ -158,6 +201,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >frown
+keys. To see all adjectives, just type X.
+
+>frowny
 keys. To see all adjectives, just type X.
 
 >puc
@@ -175,10 +221,16 @@ keys. To see all adjectives, just type X.
 >puckere
 keys. To see all adjectives, just type X.
 
+>puckered
+keys. To see all adjectives, just type X.
+
 >shou
 keys. To see all adjectives, just type X.
 
 >shout
+keys. To see all adjectives, just type X.
+
+>shouty
 keys. To see all adjectives, just type X.
 
 >smi
@@ -190,6 +242,9 @@ keys. To see all adjectives, just type X.
 >smile
 keys. To see all adjectives, just type X.
 
+>smiley
+keys. To see all adjectives, just type X.
+
 >sne
 keys. To see all adjectives, just type X.
 
@@ -197,6 +252,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >sneer
+keys. To see all adjectives, just type X.
+
+>sneery
 keys. To see all adjectives, just type X.
 
 >arr
@@ -211,6 +269,9 @@ keys. To see all adjectives, just type X.
 >arrowe
 keys. To see all adjectives, just type X.
 
+>arrowed
+keys. To see all adjectives, just type X.
+
 >bub
 keys. To see all adjectives, just type X.
 
@@ -218,6 +279,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >bubbl
+keys. To see all adjectives, just type X.
+
+>bubbly
 keys. To see all adjectives, just type X.
 
 >cir
@@ -235,6 +299,9 @@ keys. To see all adjectives, just type X.
 >circula
 keys. To see all adjectives, just type X.
 
+>circular
+keys. To see all adjectives, just type X.
+
 >clo
 keys. To see all adjectives, just type X.
 
@@ -245,6 +312,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >clover
+keys. To see all adjectives, just type X.
+
+>clovery
 keys. To see all adjectives, just type X.
 
 >hep
@@ -268,6 +338,9 @@ keys. To see all adjectives, just type X.
 >heptagona
 keys. To see all adjectives, just type X.
 
+>heptagonal
+keys. To see all adjectives, just type X.
+
 >hex
 keys. To see all adjectives, just type X.
 
@@ -286,6 +359,9 @@ keys. To see all adjectives, just type X.
 >hexagona
 keys. To see all adjectives, just type X.
 
+>hexagonal
+keys. To see all adjectives, just type X.
+
 >octa
 keys. To see all adjectives, just type X.
 
@@ -299,6 +375,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >octagona
+keys. To see all adjectives, just type X.
+
+>octagonal
 keys. To see all adjectives, just type X.
 
 >pen
@@ -322,6 +401,9 @@ keys. To see all adjectives, just type X.
 >pentagona
 keys. To see all adjectives, just type X.
 
+>pentagonal
+keys. To see all adjectives, just type X.
+
 >rho
 keys. To see all adjectives, just type X.
 
@@ -337,6 +419,9 @@ keys. To see all adjectives, just type X.
 >rhomboi
 keys. To see all adjectives, just type X.
 
+>rhomboid
+keys. To see all adjectives, just type X.
+
 >sta
 keys. To see all adjectives, just type X.
 
@@ -347,6 +432,9 @@ keys. To see all adjectives, just type X.
 keys. To see all adjectives, just type X.
 
 >starre
+keys. To see all adjectives, just type X.
+
+>starred
 keys. To see all adjectives, just type X.
 
 >tra
@@ -367,6 +455,9 @@ keys. To see all adjectives, just type X.
 >trapezoi
 keys. To see all adjectives, just type X.
 
+>trapezoid
+keys. To see all adjectives, just type X.
+
 >zig
 keys. To see all adjectives, just type X.
 
@@ -376,3 +467,11 @@ keys. To see all adjectives, just type X.
 >zigza
 keys. To see all adjectives, just type X.
 
+>zigzag
+keys. To see all adjectives, just type X.
+
+>win
+50196
+
+>nw
+69105b
