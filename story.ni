@@ -8,8 +8,6 @@ the story description is "For Spring Thing 2019".
 
 the release number is 2.
 
-use MAX_EXPRESSION_NODES of 384.
-
 Release along with an interpreter.
 
 Release along with a website.
