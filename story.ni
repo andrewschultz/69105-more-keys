@@ -1,5 +1,7 @@
 "69105 More Keys" by Andrew Schultz
 
+[todo: decide which to guess]
+
 volume initialization and variables
 
 the story headline is "A Riff on David Welbourn's original game".
@@ -40,7 +42,7 @@ debug-state is a truth state that varies.
 
 show-mult is a truth state that varies.
 
-a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom, broom, bcroom or croom. a keystruc is usually aroom. a keystruc has a truth state called this-turn.
+a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom, broom, bcroom or croom. a keystruc is usually aroom. a keystruc has a number called this-turn.
 
 to decide which number is totwt of (k - a keystruc):
 	let temp be 0;
@@ -63,7 +65,7 @@ include 69105 More Keys Beta Testing by Andrew Schultz.
 
 book room 50196
 
-Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if][if can-exit][one of][or].[paragraph break]The passage south beckons out, it seems, unless you wish to hone your key-guessing skills[stopping][end if]."
+Room 50196 is a room. "You are in room 50196. Scratched on the floor you see an arrow with heads branching [if room-c-available]north, [end if]northeast and northwest.  Text ahead of the arrows indicates [b]69105A[r] is northeast [if room-c-available],[else]and[end if] [b]69105B[r] is northwest[if room-c-available], and [b]69105C[r] is north[end if][if can-exit][one of][or].[paragraph break]The passage south beckons out, it seems, unless you wish to hone your key-guessing skills[stopping][end if]."
 
 check going south in room 50196 when can-exit:
 	say "You take the path away from the three doors. Along the way you find a bag of money with your name on it. You count it, and there's ... why, there's TWO thousand dollars in there! A note inside, however, notes you can only keep it on one condition: a wolf, a goat and a cabbage will appear ahead, and you will need to take them across a river to safety. The boat can only carry one of them.[paragraph break]Well, for $2000, that bit of drudgery's a no-brainer.[paragraph break]Oh, by the way, you can UNDO if you wish to solve the puzzles of the keys more or hone your technique.";
@@ -300,11 +302,12 @@ to mult-keys (KS - a keystruc) and (T - indexed text):
 		increment guesses-in-table;
 		now gyet entry is true;
 		if debug-state is true, say "(Debug) Got [guesses-in-table] match for [descrip entry].";
-		if guesses-in-table is 2:
+		increment this-turn of KS;
+		if this-turn of KS is 2:
 			now contradictory-guess is true;
+			say "You combined two mutually-exclusive attributes. The second one is [descrip entry].";
 			the rule succeeds;
 		now got-this-time is true;
-		now this-turn of KS is true;
 		now full-description is "[full-description] [descrip entry]";
 		if weight entry is 1:
 			now guessed-any is true;
@@ -376,7 +379,7 @@ after reading a command (this is the detect adjectives rule):
 	now contradictory-guess is false;
 	now disambiguating is false; [should already be the case, but I'd rather be sure]
 	repeat with KS running through relevant keystrucs:
-		now this-turn of KS is false;
+		now this-turn of KS is 0;
 	[start the actual code here]
 	repeat through table of ambiguities:
 		now revisit entry is false;
@@ -391,7 +394,9 @@ after reading a command (this is the detect adjectives rule):
 				now this-useful is true;
 		repeat with KS running through relevant keystrucs:
 			mult-keys KS and Y;
-			if this-turn of KS is true, now this-useful is true;
+			if this-turn of KS > 1:
+				reject the player's command;
+			if this-turn of KS is 1, now this-useful is true;
 		if this-useful is false:
 			if Y is "the" or Y is "and" or Y is "a" or Y is "an" or Y is "x" or Y is "examine" or Y is "get" or Y is "take":
 				next;
@@ -401,17 +406,17 @@ after reading a command (this is the detect adjectives rule):
 			let pre1 be this-turn of t1 entry;
 			let pre2 be this-turn of t2 entry;
 			if pre1 is pre2:
-				say "I wasn't able to resolve the ambiguity of [b][abbrev entry][r] to [abbrev-expand entry] because [t1 entry] and [t2 entry] were both [if pre1 is true]already taken[else]unassigned[end if].";
+				say "I wasn't able to resolve the ambiguity of [b][abbrev entry][r] to [abbrev-expand entry] because [t1 entry] and [t2 entry] were both [if pre1 > 0]already taken[else]unassigned[end if].";
 				reject the player's command;
 			now disambiguating is true;
-			if pre1 is true:
+			if pre1 > 0:
 				mult-keys t2 entry and abbrev entry;
 			else:
 				mult-keys t1 entry and abbrev entry;
 			now this-useful is true;
 			now disambiguating is false;
 	repeat with KS running through relevant keystrucs:
-		if this-turn of KS is false:
+		if this-turn of KS is 0:
 			overflow-mult totwt of KS;
 	if contradictory-guess is true:
 		say "You have two contradictory descriptions.";
@@ -437,6 +442,7 @@ after reading a command (this is the detect adjectives rule):
 			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
 			reject the player's command;
 		win-the-thing;
+		reject the player's command;
 
 to win-the-thing:
 	say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
@@ -582,7 +588,7 @@ understand "ve" as verbsing.
 understand "v" as verbsing.
 
 carry out verbsing:
-	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always say [b]VERBS[r].";
+	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.";
 	the rule succeeds.
 
 volume parser errors
