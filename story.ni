@@ -477,7 +477,7 @@ to send-them-back:
 		say "[line break]You hear a grinding.  A third door appears in the north wall. It seems to lead to, unsurprisingly, room 69105c!"
 
 when play begins:
-	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on the Towers of Hanoi. There were ten others.[paragraph break]But you did, with just seven towers. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
+	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on Towers of Hanoi, eight-high. There were ten others.[paragraph break]But you did, before you'd moved one tower over. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
 	if debug-state is false, wait for any key;
 	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-guesses > 15]15+[else][gessiz][end if]";
 	random-reset;
@@ -559,11 +559,10 @@ understand the command "about" as something new.
 understand "about" as abouting.
 
 carry out abouting:
-	say "This game is based on David Welbourn's original 69105 keys, which I had fun with, and which you should play. He mentioned it was a coding exercise for him (you can search for the code online--69105.inf,) but it seemed like it might be tricky in Inform 7.[paragraph break]Challenge accepted! But I didn't want to copy his puzzle mechanics, and I didn't come close to replicating all the neat jokes he put in his game. And I wondered. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, and it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped down parser. Writing (relatively) simple math/logic games like this could be good to learn new languages. You can also see who helped with this game with [b]CREDITS[r].";
-	say "[line break]I plan to put the source code online at bitbucket, for those who may find it useful.";
+	say "This game is based on David Welbourn's original [i]69105 Keys[r], which I had fun with, and which you should play. He mentioned it was a coding exercise for him (you can search for the code online--69105.inf, or David Welbourn, with site:plover.net,) but it seemed like it might be tricky in Inform 7.[paragraph break]Challenge accepted! But I didn't want to copy his puzzle mechanics, and I didn't come close to replicating all the neat jokes he put in his game. And I wondered. Was there any way I could make 69105 more symmetrical? It turns out that 69105 factors a few ways, and it's also close to a number that factors conveniently.[paragraph break]I had it in my head for a while, and it seemed like the perfect sort of game to submit to the Spring Thing back garden, which I did in 2019.[paragraph break]Perhaps it would be a good coding exercise for Twine, too, or even Python or Perl. For Twine, you could click on your next guess, and the number of keys left would appear. For Python/Perl, you could construct a stripped-down parser. Writing (relatively) simple math/logic games like this could be good to learn new programming languages. You can also see who helped with this game with [b]CREDITS[r].";
+	say "[line break]The source is online at https://github.com/andrewschultz/69105-more-keys.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
 	say "[line break]Also, you may find it is tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. You can also abbreviate the adjectives to three letters. Only two pairs are ambiguous."; [?? smart ambiguity]
-	say "Source for this game should now be at http://github.com/andrewschultz/69105more.";
 	the rule succeeds;
 
 chapter creditsing
@@ -607,19 +606,19 @@ understand "ve" as verbsing.
 understand "v" as verbsing.
 
 carry out verbsing:
-	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.";
+	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[line break][b]GUESS[r] will show your previous guesses.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.";
 	the rule succeeds.
 
 volume parser errors
 
 rule for printing a parser error:
 	if player is in room 50196 and the player's command includes "arrow":
-		say "The arrows are just there to give directions. You don't need to do anything with them." instead;
-	say "I didn't recognize that command.[paragraph break]";
+		say "The arrows are just there to give directions. You don't need to do anything with them. Just go northeast or northwest" instead;
+	say "[this-game] didn't recognize that. In fact, there aren't many commands it does. You may wish to use [b]VERBS[r] to see what it does. It's more about counting keys than smelling the flowers.";
 	give-help;
 
 to give-help:
-	say "However, while [b]VERBS[r] displays verbs, there aren't many you need to use[if player is not in room 50196]. You will probably need adjectives to get the right key, so perhaps [b]VERBS[r] is slightly mis-named[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else][b]X (ADJECTIVE COMBINATION) KEYS[r] until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four. Similarly, you can often shorten meta-verbs.";
+	say "However, while [b]VERBS[r] displays verbs, there aren't many you need to use[if player is not in room 50196], though [b]GUESS[r] will remind you what you've guessed so far. You will probably need adjectives to get the right key, so perhaps [b]VERBS[r] is slightly mis-named[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else][b]X (ADJECTIVE COMBINATION) KEYS[r] until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four. Similarly, you can often shorten meta-verbs.";
 
 chapter helping
 
