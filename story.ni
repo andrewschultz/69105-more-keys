@@ -16,6 +16,8 @@ Release along with a website.
 
 include Trivial Niceties by Andrew Schultz.
 
+Include Old School Verb Total Carnage by Andrew Schultz.
+
 include Basic Screen Effects by Emily Short.
 
 include Conditional Undo by Jesse McGrew.
@@ -261,7 +263,7 @@ book 69105c
 
 Room 69105c is a room.
 
-[room c works as follows: just like room b, only you have 5 weights instead of 11 for the final choice, so you can 1) win quicker and 2) determine which key is right, right away, due to the prime factors.]
+[room c works as follows: just like room b, only with room b, you have 11 weights instead of 5 for the final choice, so 1) there may be more accidents and 2) you may stumble over odd prime factors.]
 
 table of kpatterns
 descrip	abbrev	weight	gyet
@@ -382,6 +384,9 @@ after reading a command (this is the detect adjectives rule):
 	now guessed-any is false;
 	now contradictory-guess is false;
 	now disambiguating is false; [should already be the case, but I'd rather be sure]
+	if the player's command matches the regular expression "<^a-z >":
+		say "There is no need for anything other than letters and spaces. Since I'm not sure where word breaks should be filtered, I'll just let you use the up-arrow to fix the command, if you typed one by mistake.";
+		reject the player's command;
 	repeat with KS running through relevant keystrucs:
 		now this-turn of KS is 0;
 		now previous-found of KS is "(unknown)";
