@@ -79,7 +79,10 @@ check going northeast in Room 50196:
 	say "You hear a whirring behind you as the passage back closes.";
 	key-move 69105a instead;
 
+guess-list is a list of indexed text variable.
+
 to key-move (r - a room):
+	now guess-list is {};
 	move the keys to r;
 	move door 69105 to r;
 	move the player to r;
@@ -440,6 +443,7 @@ after reading a command (this is the detect adjectives rule):
 			say "List of words I skipped while parsing:[useless-words].";
 		if hundreds > 0 or ones > 1:
 			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
+			add "Guess [cur-guesses]:[full-description] gave [keynum] keys.[line break]" to guess-list;
 			reject the player's command;
 		win-the-thing;
 		reject the player's command;
@@ -518,6 +522,19 @@ to reshuffle-bc:
 			now gyet entry is false;
 
 volume odd verbs
+
+chapter guessing
+
+guessing is an action applying to nothing.
+
+understand the command "guess" as something new.
+
+understand "guess" as guessing.
+
+carry out guessing:
+	if number of entries in guess-list is 0, say "You've made no guesses yet." instead;
+	repeat with G running through guess-list:
+		say "[G]";
 
 chapter xyzzying
 
