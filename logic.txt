@@ -1,3 +1,22 @@
+First, you may wish to find as much as you can by your own trial and error. You also may wish to try a few throwaway sequences to see how the rules work and what the number of keys left means. You may also wish to use scratch paper to track what does and does not work. But there is also a GUESS command to show what you have guessed so far, with the results.
+
+Second, here is makeshift scratch paper for narrowing guesses down.
+
+69105a:
+ N   T
+ H   L   M   S
+ D   E   F   O   S   T
+ A   C   F   P  SH  SM  SN
+ A   B  CI  CL HEP HEX   O   P   R   S   T   Z
+
+69105b:
+  D   S
+  B   R   S
+  A CAL CAM   T
+ CO  CY   H   P   S
+
+Second, though 69105b has weirder numbers, it may be the easier of the two to solve more quickly.
+
 Here is the logic of 69105 more keys. Well, both rooms. It covers both how I figured things out and how you can.
 
 Each puzzle relies on how two odd numbers factor.
@@ -27,12 +46,21 @@ If it remains even, then one of the two is right, which seems like a nuisance, u
 
 Now, the number of keys in a wrong guess is weighted differently. You may see this as you play through.
 
+271=1+57+64+71+78
+17=1+3+5+8
+5=1+2+2
+3=1+2
+
+The factors have no overlap besides the grooves and textures (5 and 3.) So you can see which of the top numbers the keys left are divisible by. If they are below 57, you have guessed the right shaft. Otherwise, the number should divide one of 57, 64, 71 and 78, and you can factor the remaining number. If the number remaining after dividing by the shafts number is divisible by 4, both the grooves and textures are wrong.
+
+But 69105c may open up later!
+
 271=1+9+13+17+21+25+29+33+37+41+45
 17=1+3+5+8
 5=1+2+2
 3=1+2
 
-You'll notice there aren't a lot of even numbers.
+You'll notice there aren't a lot of even numbers. So the logic proceeds as above.
 
 If the number of keys left is divisible by 8, 17 (the key's font) is wrong, and you can divide what you have by 8.
 
@@ -47,7 +75,5 @@ If it's divisible by 0, then you know 3 must've been right and your guesses for 
 Now you need to pay attention to 17*271. Note that multiplying a number in the sum up to 271 and a number in the sum up to 17 usually gives a unique product ... unless you 45*2^n. In this case, the number of keys may be (5 and 9) or (1 and 45). But if you make a different guess with both, you should be able to detect which was the case. There's a small possibility you may get 45 again, but that's okay. You can then just switch the pattern (271) and you will know which you got right.
 
 You can, with a bit of scratch paper, get the grooves, textures and fonts right within 3 or 4 moves. That leaves a bit of an unfortunate mess of guesswork for 271. Sorry about that.
-
-(Note: an outside possibility here was 271=1+57+64+71+78. Then we would use similar reasoning to see that if a number was divisible by 64, then 271 was wrong. Or if by 13, then 271 was wrong--it was 78. Perhaps in the post-comp release I will implement room 69105c, once you solve room 69105b often enough.)
 
 Of course, you can also use the UNDO function to make the game think you found all the keys in one guess. I'd like to be able to give the player a chance to experiment.
