@@ -42,7 +42,7 @@ debug-state is a truth state that varies.
 
 show-mult is a truth state that varies.
 
-a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom, broom, bcroom or croom. a keystruc is usually aroom. a keystruc has a number called this-turn.
+a keystruc is a kind of thing. a keystruc has a table name called klist. a keystruc has a number called badnum. a keystruc can be aroom, broom, bcroom or croom. a keystruc is usually aroom. a keystruc has a number called this-turn. a keystruc has indexed text called previous-found.
 
 to decide which number is totwt of (k - a keystruc):
 	let temp be 0;
@@ -308,8 +308,9 @@ to mult-keys (KS - a keystruc) and (T - indexed text):
 		increment this-turn of KS;
 		if this-turn of KS is 2:
 			now contradictory-guess is true;
-			say "You combined two mutually-exclusive attributes. The second one is [descrip entry].";
+			say "You combined two mutually-exclusive attributes: [descrip entry] duplicates [previous-found of ks].";
 			the rule succeeds;
+		now previous-found of KS is "[descrip entry]";
 		now got-this-time is true;
 		now full-description is "[full-description] [descrip entry]";
 		if weight entry is 1:
@@ -383,6 +384,7 @@ after reading a command (this is the detect adjectives rule):
 	now disambiguating is false; [should already be the case, but I'd rather be sure]
 	repeat with KS running through relevant keystrucs:
 		now this-turn of KS is 0;
+		now previous-found of KS is "(unknown)";
 	[start the actual code here]
 	repeat through table of ambiguities:
 		now revisit entry is false;
