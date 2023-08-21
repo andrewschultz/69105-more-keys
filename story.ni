@@ -546,9 +546,16 @@ to reshuffle-bc:
 
 volume standard verb responses
 
-the block waking up rule is not listed in any rulebook.
+chapter inventory
 
-check waking up: say "If this is a nightmare, there are worse ones." instead;
+check taking inventory: say "You're not carrying anything special. [if player is in room 50196]You'll find a key you need in the room beyond[else]In fact, you're trying to find the right key[end if]." instead;
+
+chapter sleeping
+
+the block sleeping rule is not listed in any rulebook.
+
+check sleeping:
+	say "[if player is in room 50196]No, the arrows are calling you for an exciting, invigorating, eye-opening session of logical deduction[else]With all these keys scattered about? A bare floor would be bad enough, but now, ouch[end if]." instead;
 
 chapter swearing
 
@@ -563,6 +570,12 @@ chapter thinking
 the block thinking rule is not listed in any rulebook.
 
 check thinking: say "[b]H[r] or [b]HELP[r] or [b]HINT[r] will give you general glues, and [b]G[r] or [b]GUESS[r] will show all your guesses." instead;
+
+chapter waking
+
+the block waking up rule is not listed in any rulebook.
+
+check waking up: say "If this is a nightmare, there are worse ones." instead;
 
 chapter yes / no
 
@@ -610,6 +623,63 @@ carry out guessing:
 	repeat with G running through guess-list:
 		increment count;
 		say "Guess [count]: [G]";
+
+chapter helping
+
+helping is an action applying to nothing.
+
+understand the command "help" as something new.
+understand the command "hel" as something new.
+understand the command "he" as something new.
+understand the command "h" as something new.
+understand the command "hint" as something new.
+understand the command "hin" as something new.
+understand the command "hi" as something new.
+
+understand "help" as helping.
+understand "hel" as helping.
+understand "he" as helping.
+understand "h" as helping.
+understand "hint" as helping.
+understand "hin" as helping.
+understand "hi" as helping.
+
+carry out helping:
+	say "There is a walkthrough that describes strategy, if you want it. There is no actual winning state. A long-term goal of replaying the game is to decrease the number of turns needed adjectives needed.";
+	give-help;
+	the rule succeeds.
+
+chapter hoffing
+
+hoffing is an action out of world.
+
+understand the command "hoff" as something new.
+
+understand "hoff" as hoffing.
+
+carry out hoffing:
+	if big-header is false, say "But the header is already disabled!" instead;
+	say "Disabling header[note-50196].";
+	now big-header is false;
+	the rule succeeds;
+
+to say note-50196:
+	if player is in room 50196, say " for when you choose a puzzle room"
+
+chapter honing
+
+honing is an action out of world.
+
+understand the command "hon" as something new.
+
+understand "hon" as honing.
+
+carry out honing:
+	if big-header is true, say "But the header is already present!" instead;
+	if screen width < 50 or screen height < 10, say "[this-game] requires a screen width of 50 and a height of 10 for the expanded header." instead;
+	say "Enabling header[note-50196].";
+	now big-header is true;
+	the rule succeeds;
 
 chapter strictoffing
 
@@ -729,63 +799,6 @@ rule for printing a parser error:
 
 to give-help:
 	say "However, while [b]VERBS[r] displays verbs, there aren't many you need to use[if player is not in room 50196], though [b]GUESS[r] will remind you what you've guessed so far. You will probably need adjectives to get the right key, so perhaps [b]VERBS[r] is slightly mis-named[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else][b]X (ADJECTIVE COMBINATION) KEYS[r] until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four. Similarly, you can often shorten meta-verbs.";
-
-chapter honing
-
-honing is an action out of world.
-
-understand the command "hon" as something new.
-
-understand "hon" as honing.
-
-carry out honing:
-	if big-header is true, say "But the header is already present!" instead;
-	if screen width < 50 or screen height < 10, say "[this-game] requires a screen width of 50 and a height of 10 for the expanded header." instead;
-	say "Enabling header[note-50196].";
-	now big-header is true;
-	the rule succeeds;
-
-chapter honing
-
-hoffing is an action out of world.
-
-understand the command "hoff" as something new.
-
-understand "hoff" as hoffing.
-
-carry out hoffing:
-	if big-header is false, say "But the header is already disabled!" instead;
-	say "Disabling header[note-50196].";
-	now big-header is false;
-	the rule succeeds;
-
-to say note-50196:
-	if player is in room 50196, say " for when you choose a puzzle room"
-
-chapter helping
-
-helping is an action applying to nothing.
-
-understand the command "help" as something new.
-understand the command "hel" as something new.
-understand the command "he" as something new.
-understand the command "h" as something new.
-understand the command "hint" as something new.
-understand the command "hin" as something new.
-understand the command "hi" as something new.
-
-understand "help" as helping.
-understand "hel" as helping.
-understand "he" as helping.
-understand "h" as helping.
-understand "hint" as helping.
-understand "hin" as helping.
-understand "hi" as helping.
-
-carry out helping:
-	say "There is a walkthrough that describes strategy, if you want it. There is no actual winning state. A long-term goal of replaying the game is to decrease the number of turns needed adjectives needed.";
-	give-help;
-	the rule succeeds.
 
 volume tallying results
 
