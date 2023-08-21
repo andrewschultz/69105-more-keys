@@ -1,7 +1,5 @@
 "69105 More Keys" by Andrew Schultz
 
-[todo: decide which to guess]
-
 volume initialization and variables
 
 the story headline is "A Riff on David Welbourn's original game".
@@ -10,7 +8,7 @@ the story description is "For Spring Thing 2019".
 
 the release number is 2.
 
-Release along with an interpreter.
+Release along with the "Parchment" interpreter.
 
 Release along with a website.
 
@@ -93,12 +91,16 @@ check going northwest in Room 50196:
 	say "You hear a whirring behind you as the passage back closes.";
 	key-move 69105b instead;
 
+to decide whether (rm - a room) is won:
+	if wins of rm > 0, yes;
+	no;
+
 to decide whether room-c-available:
-	if wins of 69105b > 0 and wins of 69105a > 0, yes;
+	if 69105b is won and 69105a is won, yes;;
 	no;
 
 to decide whether can-exit:
-	if wins of 69105c > 0 and wins of 69105b > 0 and wins of 69105a > 0, yes;
+	if room-c-available and 69105c is won, yes;
 	no;
 
 check going north in Room 50196 when room-c-available:
@@ -530,6 +532,12 @@ to reshuffle-bc:
 
 volume odd verbs
 
+definition: a direction (called di) is viable:
+	if di is south and player is in room 50196 and can-exit, yes;
+	if di is north and room-c-available, yes;
+	if the room di of location of player is nothing, no;
+	yes;
+
 chapter guessing
 
 Include (-
@@ -543,7 +551,7 @@ Include (-
 
 -) after "Language.i6t".
 
-guessing is an action applying to nothing.
+guessing is an action out of world.
 
 understand the command "guesses" as something new.
 understand the command "guess" as something new.
@@ -554,7 +562,7 @@ understand "guess" as guessing.
 understand "g" as guessing.
 
 carry out guessing:
-	if player is in room 50196, say "You aren't in a guessing room. Head north-ish." instead;
+	if player is in room 50196, say "You aren't in a guessing room. They are [list of viable directions]." instead;
 	if number of entries in guess-list is 0, say "You've made no guesses yet." instead;
 	repeat with G running through guess-list:
 		say "[G]";
@@ -584,7 +592,7 @@ carry out abouting:
 	say "[line break]The source is online at https://github.com/andrewschultz/69105-more-keys.";
 	if bad-keys-found is 0, say "[line break]By the way, you can try to find the absolute worst key for fun in [score-desc of room 69105a].";
 	say "[line break]Also, you may find it tricky to type and re-type things manually, so using the up arrow to give a copy of your previous command will likely save time and frustration. You can also abbreviate the adjectives to three letters. Only two pairs are ambiguous."; [?? smart ambiguity]
-	say "[line break]And finally, scratch paper may help. You may wish to track what you've guessed, even though you have [b]GUESS[r] as a command in-game."; [?? smart ambiguity]
+	say "[line break]And finally, scratch paper may help. You may wish to track what you've guessed, even though you have [b]GUESS[r] as a command in-game.";
 	the rule succeeds;
 
 chapter creditsing
