@@ -450,6 +450,9 @@ after reading a command (this is the detect adjectives rule):
 	if hundreds < 700:
 		if useless-words is not "":
 			say "List of words I skipped while parsing:[useless-words].";
+			if warn-useless-words is false:
+				say "[i][bracket][b]NOTE:[r][i] typos may cost you a guess later on, so there is an option to make sure this game weeds out typos. [b]STRICT ON[r][i] is such an option.[close bracket][r]";
+				now warn-useless-words is true;
 		if hundreds > 0 or ones > 1:
 			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
 			add-unduplicated-guess;
@@ -541,7 +544,7 @@ to reshuffle-bc:
 		repeat through klist of X:
 			now gyet entry is false;
 
-volume standard verbs
+volume standard verb responses
 
 the block waking up rule is not listed in any rulebook.
 
@@ -569,7 +572,7 @@ the block saying yes rule is not listed in any rulebook.
 check saying yes: say "Aha! You have an idea!" instead;
 check saying no: say "You ponder your next guess. Not quite." instead;
 
-volume odd verbs
+volume meta verbs / options
 
 definition: a direction (called di) is viable:
 	if di is south and player is in room 50196 and can-exit, yes;
@@ -607,6 +610,39 @@ carry out guessing:
 	repeat with G running through guess-list:
 		increment count;
 		say "Guess [count]: [G]";
+
+chapter strictoffing
+
+understand "strict" as a mistake ("You need to toggle strict adjective parsing explicitly with [b]STRICT ON[r] or [b]STRICT OFF[r].").
+
+strict-parsing is a truth state that varies.
+
+warn-useless-words is a truth state that varies.
+
+strictoffing is an action out of world.
+
+understand the command "strict off" as something new.
+
+understand "strict off" as strictoffing.
+
+carry out strictoffing:
+	say "Strict adjective parsing is [if strict-parsing is false]already[else]now[end if] off.";
+	now strict-parsing is false;
+	the rule succeeds;
+
+chapter strictoning
+
+strictoning is an action out of world.
+
+understand the command "strict on" as something new.
+
+understand "strict on" as strictoning.
+
+carry out strictoning:
+	now warn-useless-words is true;
+	say "Strict adjective parsing is [if strict-parsing is true]already[else]now[end if] on.";
+	now strict-parsing is true;
+	the rule succeeds;
 
 chapter xyzzying
 
@@ -677,7 +713,7 @@ understand "ve" as verbsing.
 understand "v" as verbsing.
 
 carry out verbsing:
-	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[line break][b]GUESS[r] will show your previous guesses.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.[paragraph break][b]HON[r] and [b]HOFF[r] also toggle headers which help to organize what you've guessed and the abbreviations for what to guess.";
+	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[line break][b]GUESS[r] will show your previous guesses.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.[paragraph break][b]HON[r] and [b]HOFF[r] also toggle headers which help to organize what you've guessed and the abbreviations for what to guess, and [b]STRICT ON[r] and [b]STRICT OFF[r] toggle strict adjective parsing. Having it on means a typo should not waste a guess.";
 	the rule succeeds.
 
 volume parser errors
