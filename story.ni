@@ -532,13 +532,29 @@ volume odd verbs
 
 chapter guessing
 
+Include (-
+
+	#Undef AGAIN1__WD;
+	Constant AGAIN1__WD = ' ';
+	#Undef AGAIN2__WD;
+	Constant AGAIN2__WD = ' ';
+	#Undef AGAIN3__WD;
+	Constant AGAIN3__WD = ' ';
+
+-) after "Language.i6t".
+
 guessing is an action applying to nothing.
 
+understand the command "guesses" as something new.
 understand the command "guess" as something new.
+understand the command "g" as something new.
 
+understand "guesses" as guessing.
 understand "guess" as guessing.
+understand "g" as guessing.
 
 carry out guessing:
+	if player is in room 50196, say "You aren't in a guessing room. Head north-ish." instead;
 	if number of entries in guess-list is 0, say "You've made no guesses yet." instead;
 	repeat with G running through guess-list:
 		say "[G]";
