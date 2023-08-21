@@ -540,6 +540,34 @@ to reshuffle-bc:
 		repeat through klist of X:
 			now gyet entry is false;
 
+volume standard verbs
+
+the block waking up rule is not listed in any rulebook.
+
+check waking up: say "If this is a nightmare, there are worse ones." instead;
+
+chapter swearing
+
+the block swearing obscenely rule is not listed in any rulebook.
+the block swearing mildly rule is not listed in any rulebook.
+
+check swearing obscenely: try swearing mildly instead;
+check swearing mildly: say "There's no proof swearing will help you think better, but more importantly, there's no proof it won't." instead;
+
+chapter thinking
+
+the block thinking rule is not listed in any rulebook.
+
+check thinking: say "[b]H[r] or [b]HELP[r] or [b]HINT[r] will give you general glues, and [b]G[r] or [b]GUESS[r] will show all your guesses." instead;
+
+chapter yes / no
+
+the block saying no rule is not listed in any rulebook.
+the block saying yes rule is not listed in any rulebook.
+
+check saying yes: say "Aha! You have an idea!" instead;
+check saying no: say "You ponder your next guess. Not quite." instead;
+
 volume odd verbs
 
 definition: a direction (called di) is viable:
