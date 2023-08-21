@@ -443,7 +443,6 @@ after reading a command (this is the detect adjectives rule):
 			say "You found the random 'worst' set of keys available! Congratulations! Whether you found them by accident or on purpose, this is sort of a hidden easter egg.";
 			increment bad-keys-found;
 	if guessed-any is false, continue the action;
-	say "[cur-guesses].";
 	if hundreds < 0:
 		say "Oops. Overflow error. This is bad. But it is probably rectified by more detailed guesses.";
 		add-unduplicated-guess;
@@ -452,10 +451,10 @@ after reading a command (this is the detect adjectives rule):
 		if useless-words is not "":
 			say "List of words I skipped while parsing:[useless-words].";
 		if hundreds > 0 or ones > 1:
-			say "[cur-guesses].";
 			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
 			add-unduplicated-guess;
 			reject the player's command;
+		increment cur-guesses;
 		win-the-thing;
 		reject the player's command;
 
@@ -473,7 +472,9 @@ to win-the-thing:
 	reject the player's command;
 
 to send-them-back:
+	deepen the status line to 1 rows;
 	let LP be location of player;
+	first-status;
 	move player to Room 50196;
 	increment wins of LP;
 	increase moves of LP by cur-guesses;
@@ -792,6 +793,8 @@ to show-wins (rm - a room):
 volume status line
 
 big-header is a truth state that varies.
+
+to first-status: (- DrawStatusLine(); -);
 
 to say invtxt: (- style reverse; -)
 
