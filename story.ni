@@ -498,7 +498,7 @@ to send-them-back:
 		say "[line break]You hear a grinding.  A third door appears in the north wall. It seems to lead to, unsurprisingly, room 69105c!"
 
 when play begins:
-	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on Towers of Hanoi, eight-high. There were ten others.[paragraph break]But you did, before you'd moved one tower over. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
+	say "It was a brutal marathon, and all you had to do to win $1000 was not be the first person to give up or mess up on Towers of Hanoi, eight-high. There were ten others.[paragraph break]But you did, before you'd moved one full tower over. 'I ... just got distracted ...' you protested, but it was no good.[paragraph break]The punishment ... well, not like death or anything, just the event organizers booming 'You too good for Towers of Hanoi? Well, let's give you a real puzzle!' as a trap door opened and you fell to... (push any key)";
 	if debug-state is false, wait for any key;
 	now right hand status line is "[if player is in room 50196]NE or NW[else if cur-guesses > 15]15+[else][gessiz][end if]";
 	random-reset;
@@ -717,6 +717,9 @@ carry out verbsing:
 	the rule succeeds.
 
 volume parser errors
+
+rule for printing a parser error when the latest parser error is the i beg your pardon error:
+	say "If you're stuck for things to do, [b]VERBS[r] will list the commands and words needed, along with a few options that may ease play.";
 
 rule for printing a parser error:
 	if player is in room 50196 and the player's command includes "arrow":

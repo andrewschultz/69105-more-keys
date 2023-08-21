@@ -5,7 +5,7 @@ Version 1/220705 of 69105 More Keys Beta Testing by Andrew Schultz begins here.
 volume beta testing - not for release
 
 when play begins:
-	say "Thanks for testing this![paragraph break][i][bracket]BETA TESTING NOTE: the command [b]SOLVE[r][i] gives you the solution if you want to undo things, and the command [b]CHEAT[r][i] tells you what the solution is. This isn't just a straight-up cheat, as it can also give you ideas of odd things to try, if you wish.[close bracket][r]";
+	say "Thanks for testing this![paragraph break][i][bracket][b]BETA TESTING NOTE[r][i]: the command [b]SOLVE[r][i] gives you the solution if you want to undo things, and the command [b]CHEAT[r][i] tells you what the solution is. This isn't just a straight-up cheat, as it can also give you ideas of odd things to try, if you wish.[close bracket][r]";
 
 chapter cheating
 
@@ -16,7 +16,7 @@ understand the command "cheat" as something new.
 understand "cheat" as cheating.
 
 carry out cheating:
-	if player is in room 50196, say "You don't need to cheat here." instead;
+	if player is in room 50196, say "Alas, there's nothing to cheat at here." instead;
 	say "Right adjective stream:";
 	repeat with Q running through relevant keystrucs:
 		repeat through klist of Q:
