@@ -443,19 +443,29 @@ after reading a command (this is the detect adjectives rule):
 			say "You found the random 'worst' set of keys available! Congratulations! Whether you found them by accident or on purpose, this is sort of a hidden easter egg.";
 			increment bad-keys-found;
 	if guessed-any is false, continue the action;
-	increment cur-guesses;
+	say "[cur-guesses].";
 	if hundreds < 0:
 		say "Oops. Overflow error. This is bad. But it is probably rectified by more detailed guesses.";
+		add-unduplicated-guess;
 		reject the player's command;
 	if hundreds < 700:
 		if useless-words is not "":
 			say "List of words I skipped while parsing:[useless-words].";
 		if hundreds > 0 or ones > 1:
+			say "[cur-guesses].";
 			say "You see [keynum][full-description] keys. To see all adjectives, just type X.";
-			add "Guess [cur-guesses]:[full-description] gave [keynum] keys.[line break]" to guess-list;
+			add-unduplicated-guess;
 			reject the player's command;
 		win-the-thing;
 		reject the player's command;
+
+to add-unduplicated-guess:
+	let X be "[full-description] gave [keynum] keys.[line break]";
+	if X is listed in guess-list:
+		say "This is a duplicate guess, so I won't count it towards your total.";
+	else:
+		add X to guess-list;
+		increment cur-guesses;
 
 to win-the-thing:
 	say "You found the right key in [cur-guesses] move[plur of cur-guesses]! As you turn the key in the lock, you take a secret passage that winds around to...";
@@ -564,8 +574,10 @@ understand "g" as guessing.
 carry out guessing:
 	if player is in room 50196, say "You aren't in a guessing room. They are [list of viable directions]." instead;
 	if number of entries in guess-list is 0, say "You've made no guesses yet." instead;
+	let count be 0;
 	repeat with G running through guess-list:
-		say "[G]";
+		increment count;
+		say "Guess [count]: [G]";
 
 chapter xyzzying
 
