@@ -676,7 +676,7 @@ understand "ve" as verbsing.
 understand "v" as verbsing.
 
 carry out verbsing:
-	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[line break][b]GUESS[r] will show your previous guesses.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.";
+	say "[b]SCORE[r] gives the score which, here, is a summary of the guesses you've needed each time in each room.[line break][b]GUESS[r] will show your previous guesses.[paragraph break]Otherwise, you can sling together adjectives, and the command parser will scoop them all up and see which work. For instance, [b]X PINK KEY[r] will have the same effect as [b]TAKE PINK[r] or even [b]PINK[r]. If you have one adjective typed in, the parser will assume you are guessing.[paragraph break]But there's more! You can often abbreviate an attribute. The parser tries to guess this.[paragraph break]Finally, you can abbreviate most adjectives to three letters, though the game will poke you about ambiguities. So, semantically, this command should have been called [b]ADJECTIVES[r], though I always use [b]VERBS[r] to show what you need to do.[paragraph break][b]HON[r] and [b]HOFF[r] also toggle headers which help to organize what you've guessed and the abbreviations for what to guess.";
 	the rule succeeds.
 
 volume parser errors
@@ -689,6 +689,38 @@ rule for printing a parser error:
 
 to give-help:
 	say "However, while [b]VERBS[r] displays verbs, there aren't many you need to use[if player is not in room 50196], though [b]GUESS[r] will remind you what you've guessed so far. You will probably need adjectives to get the right key, so perhaps [b]VERBS[r] is slightly mis-named[end if]. In fact, all you can really do here is [if player is in room 50196]go northwest or northeast to different puzzle rooms[else][b]X (ADJECTIVE COMBINATION) KEYS[r] until you get the right one[end if].[paragraph break]To save keystrokes, you can abbreviate almost all of the key descriptions with the first three letters. Descriptions with the same first three letters may need four. Similarly, you can often shorten meta-verbs.";
+
+chapter honing
+
+honing is an action out of world.
+
+understand the command "hon" as something new.
+
+understand "hon" as honing.
+
+carry out honing:
+	if big-header is true, say "But the header is already present!" instead;
+	if screen width < 50 or screen height < 10, say "[this-game] requires a screen width of 50 and a height of 10 for the expanded header." instead;
+	say "Enabling header[note-50196].";
+	now big-header is true;
+	the rule succeeds;
+
+chapter honing
+
+hoffing is an action out of world.
+
+understand the command "hoff" as something new.
+
+understand "hoff" as hoffing.
+
+carry out hoffing:
+	if big-header is false, say "But the header is already disabled!" instead;
+	say "Disabling header[note-50196].";
+	now big-header is false;
+	the rule succeeds;
+
+to say note-50196:
+	if player is in room 50196, say " for when you choose a puzzle room"
 
 chapter helping
 
@@ -756,6 +788,26 @@ to show-wins (rm - a room):
 			now space-yet is true;
 			say "[count][if count is number of entries in rmf]+[end if] tr[if count is 1]y[else]ies[end if] [entry count of rmf] time[plur of entry count of rmf]";
 		say ".";
+
+volume status line
+
+big-header is a truth state that varies.
+
+to say invtxt: (- style reverse; -)
+
+rule for constructing the status line when big-header is true and player is not in room 50196:
+	let nrc be number of relevant keystrucs + 1;
+	deepen the status line to nrc rows;
+	let count be 1;
+	move the cursor to 1;
+	say "[location of player]";
+	right align cursor to 1;
+	say "[gessiz]";
+	repeat with KS running through relevant keystrucs:
+		increment count;
+		move the cursor to count;
+		repeat through klist of KS:
+			say "[if gyet entry is true][b][abbrev entry in upper case][r][invtxt][else][abbrev entry][end if] ";
 
 volume debug - not for release
 
